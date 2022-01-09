@@ -1,0 +1,13 @@
+[Unit]
+Description=Backend Automated Dialer Service
+After=network.target
+
+[Service]
+WorkingDirectory=/usr/local/utils/covid/backend/
+Type=simple
+User=root
+ExecStart=/usr/local/utils/covid/backend/backend-dialer
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,13 @@
+---
+port: ":3000"
+username: "notinuse"
+password: "notinuse"
+
+db:
+  db_user: "template_db_user"
+  db_password: "template_db_pass"
+  db_host: "template_db_host"
+  db_port: 3306
+  db_name: "template_db_name"
+  db_tz: "Local"
+...

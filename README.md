@@ -5,6 +5,8 @@
 - [ ] embed install_4_cloudformation.sh into cloudformation-template.yml
 - [ ] add to cloudformation-template ami from all regions. Currently, the static ami-0892d3c7ee96c0bf7 is set for us-west-2 only
 - [ ] installation via code deploy pipeline. Create codedeploy pipeline template for cloudformation
+- [ ] update git clone ${!REPO_ADDRESS} covid in user-data in ec2. Remove authorization
+- [ ] update cloudformation-template.yml - remove ssh private key for repo. Remove after repo is public!!!
 
 # Automated Dialing System MaWaSys
 #### (mass warning system)
@@ -33,7 +35,7 @@ Campaign view:
   
 </details>
 
-## covid2019-predictive-dialer-front
+## covid2019-auto-dialer-front
 
 
 ## Install
