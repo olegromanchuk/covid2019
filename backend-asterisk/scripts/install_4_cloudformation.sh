@@ -2,6 +2,7 @@
 
 #Install everything first time
 
+if [[ ! -f /usr/local/utils/systeminstalled_flag ]]; then
 mkswap /dev/xvdf
 swapon /dev/xvdf
 echo "/dev/xvdf none swap sw 0 0" >> /etc/fstab
@@ -73,6 +74,9 @@ chmod +x ./install
 sudo ./install auto
 #systemctl status codedeploy-agent
 
+#add flag that everything is installed
+touch /usr/local/utils/systeminstalled_flag
+fi
 
 #install aws. Probably, not necessary
 #cd /usr/local/src/ &&
