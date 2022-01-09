@@ -1,5 +1,3 @@
 backend/config.yml
-config_campaign_generator.php
-asterisk/extensions_covid2019_ivr.conf
-/covid2019-predictive-dialer-backend-asterisk.iml
+backend/asterisk/extensions_covid2019_ivr.conf
 /.idea/
