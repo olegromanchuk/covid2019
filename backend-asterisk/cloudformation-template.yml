@@ -417,43 +417,43 @@ Resources:
           #!/bin/bash -x
           ###TMP!!! Private key for repo. Remove after repo is public!!!
           echo "-----BEGIN OPENSSH PRIVATE KEY-----
-                b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
-                NhAAAAAwEAAQAAAYEApxbyx46se80X9RrYuoA44Qjp+Ox8z7FcWYDtk4H4Mkqii5Lct1fH
-                oXuOX2s6RFAO7y0qVlWgQ9O869f+jKkSLGxeQoKobX9ZlNvMadyuORZNx6wLqMyacPf3tZ
-                nCCy8VRBh9xIevFNOviCpfdRQao8chWElCIceZ3l+QTKRNs3Qoi4l88yamG69QL6LzeSPz
-                tZ3uMOo/vbhgO+2YDUawffEDGtSjPVwFNEym830DyDKnLFCNOw1tJ3mDEkKD/XJ/wyYRQa
-                ciKSfE5o+Xxlj1LEdbmw0GJW01zkT2m8uhoZfZFpSr9SBx+xmgdiaxtbmgaqEg3t+6P8j3
-                rX2wuTudWpKrWVmxrHozGUp/3dsXMTk9bm834h0sZWJJhowtdx5Z5gXxTrctNTuzYjKRtK
-                ATfNaBEWUZJRBgMygNzugxHrhJtEkLP5KsRq/9eNVK3Z4BhzG1MbR4TjjJnMTO1aofThHj
-                bwbRufxFnyMS4VslEN/7fvaVlq70p0V05MKzCZETAAAFkPnKOIj5yjiIAAAAB3NzaC1yc2
-                EAAAGBAKcW8seOrHvNF/Ua2LqAOOEI6fjsfM+xXFmA7ZOB+DJKoouS3LdXx6F7jl9rOkRQ
-                Du8tKlZVoEPTvOvX/oypEixsXkKCqG1/WZTbzGncrjkWTcesC6jMmnD397WZwgsvFUQYfc
-                SHrxTTr4gqX3UUGqPHIVhJQiHHmd5fkEykTbN0KIuJfPMmphuvUC+i83kj87Wd7jDqP724
-                YDvtmA1GsH3xAxrUoz1cBTRMpvN9A8gypyxQjTsNbSd5gxJCg/1yf8MmEUGnIiknxOaPl8
-                ZY9SxHW5sNBiVtNc5E9pvLoaGX2RaUq/UgcfsZoHYmsbW5oGqhIN7fuj/I9619sLk7nVqS
-                q1lZsax6MxlKf93bFzE5PW5vN+IdLGViSYaMLXceWeYF8U63LTU7s2IykbSgE3zWgRFlGS
-                UQYDMoDc7oMR64SbRJCz+SrEav/XjVSt2eAYcxtTG0eE44yZzEztWqH04R428G0bn8RZ8j
-                EuFbJRDf+372lZau9KdFdOTCswmREwAAAAMBAAEAAAGBAIGcfoUn+koqZLwfsCCzl+uP85
-                bBM2wUo5NWPHQg7Htug7oLGSUrdVKhOmZwEgmtpHgJq/6+ewxCMhksOmu4Nr247kFfgvE1
-                STL8cQtpQMhNsdYCciTlWaPp5f+7ntb4FeH1sZGCwuA/+LiCTfvOtX931zjZ0u/LGmNx88
-                hP52od39mltAQVZeKx0lyxZXYB2ml2ca8F9p3faN7zxe/+dqerDgKBEYNmXy8biqHzxrxD
-                9oOclIFLP/HQA0llyWcPqiQewmgtmQfHlyyXbQTWornt8e/WA5YgK/Qc9x7gfPlTpHexFO
-                f9xZmEjRwDX5HeRUiatTw+p+KaivplauCnSCdm1i8cAjid3rodFFEn4B56q8C70SZLZYic
-                GsXO3izvu3UiygeA1p8PNShbHjDXFb0bkEPxLq3RYq8ll9NRyUfjbs+lqsLvGfeHK+xg5n
-                jVIEphV9g1KAKMROBrE9x73lVzD2hj4lCvuN3Ouq3XmOtvhBCrssYbn6dgHjVOCREfuQAA
-                AMEAg0AVRqprkvjYHVYrIyzRkI9pMhnZIwVgHQCG4QYiZKsL8rF4zA1EvagIFCgjK2by2h
-                nlowJYn5cBrP5Dnq0GJXQwDZk05LKBR/z4pqeCkgiW0nM57CAsm4r9+KHJLdLWmV1IqUL+
-                tSyPG8h+tQl0od2SwLTQRoI3BWv+C7xK+puSU2CtO0KJCkrgvwB7J1ooqiAVEH9oMyzlVg
-                I6wKVQ10XzvezLkSZ+3+Zos3ghQs7jhr3r7XGKqWsLnv1gr6NkAAAAwQDcXKybqXCKqdDx
-                IUfX0RBCo/IptecJNgKhF/A/jJvPHGZAjWqkm5LPGVzoFHzMvHw9ytr1kOT/ojmHz30jLd
-                L+aJrXOP6LYXrMeV53lioloaIi14VYTjowzH0dQ2PoZkHhhPVCxJnSzMXLaV3PMGYHhWBC
-                7c0/6+LnBE06rp2FVqJbdJEjx23hpbsKpj/YTSqDd7FtvcopjR0umuj/TJVytJMw9+eyqF
-                LZxrh+F2nKQ5NNgqgmuptJrNDZDYiBBTcAAADBAMIct117XR+HXCGhm5ysFTt+zZGW1g0y
-                Afifqp2cj8lIr0hug6T5c0kYuBkx8FFN4MH+mta2LhlmQptK1zdFZUo/UTZaw8YvwvXybe
-                0GDxHaRzUDv8LyHH172kUcEgRnaOlqYiydZWyWDezqS2sP75YNb7VYfW0fDGESWVj4xOKc
-                sZv+aD+6uNrRxZFA1wiUuHXc1yqhqVDET6TgdfOIlaiyxSD9n4Cc1RFU1l0mXAfHP4yQo4
-                oT5NgxCxv8pBrBBQAAABV1YnVudHVAaXAtMTcyLTMxLTEtODcBAgME
-                -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
+          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
+          -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           export IP_ADDRESS=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
           if [[ ! -d ${!INSTALL_DIR} ]]; then
@@ -461,9 +461,9 @@ Resources:
           fi
           cd ${!INSTALL_DIR}
           #UPDATE git clone ${!REPO_ADDRESS} covid
-          git clone ${!REPO_ADDRESS} covid
-          cd covid/
-          ./backend-asterisk/scripts/install_4_cloudformation.sh
+          GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone ${!REPO_ADDRESS} covid
+          cd covid/backend-asterisk/
+          #./scripts/install_4_cloudformation.sh
 
   
   AssignRole:
