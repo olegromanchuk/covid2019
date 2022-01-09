@@ -1,0 +1,503 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Covid2019-automated-dialer-template
+
+Parameters:
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.small
+    AllowedValues:
+      - t2.nano
+      - t1.micro
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - m1.small
+      - m1.medium
+      - m1.large
+      - m1.xlarge
+      - m2.xlarge
+      - m2.2xlarge
+      - m2.4xlarge
+      - m3.medium
+      - m3.large
+      - m3.xlarge
+      - m3.2xlarge
+      - m4.large
+      - m4.xlarge
+      - m4.2xlarge
+      - m4.4xlarge
+      - m4.10xlarge
+      - c1.medium
+      - c1.xlarge
+      - c3.large
+      - c3.xlarge
+      - c3.2xlarge
+      - c3.4xlarge
+      - c3.8xlarge
+      - c4.large
+      - c4.xlarge
+      - c4.2xlarge
+      - c4.4xlarge
+      - c4.8xlarge
+      - g2.2xlarge
+      - g2.8xlarge
+      - r3.large
+      - r3.xlarge
+      - r3.2xlarge
+      - r3.4xlarge
+      - r3.8xlarge
+      - i2.xlarge
+      - i2.2xlarge
+      - i2.4xlarge
+      - i2.8xlarge
+      - d2.xlarge
+      - d2.2xlarge
+      - d2.4xlarge
+      - d2.8xlarge
+      - hi1.4xlarge
+      - hs1.8xlarge
+      - cr1.8xlarge
+      - cc2.8xlarge
+      - cg1.4xlarge
+    ConstraintDescription: must be a valid EC2 instance type.
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+  SSHLocation:
+    Description: The IP address range that can be used to SSH to the EC2 instances
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 0.0.0.0/0
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  RepoAddress:
+    Description: Address of repository from where the source code should be downloaded
+    Type: String
+    Default: git@github.com:xyrk/covid2019.git
+Mappings:
+  AWSInstanceType2Arch:
+    t1.micro:
+      Arch: HVM64
+    t2.nano:
+      Arch: HVM64
+    t2.micro:
+      Arch: HVM64
+    t2.small:
+      Arch: HVM64
+    t2.medium:
+      Arch: HVM64
+    t2.large:
+      Arch: HVM64
+    m1.small:
+      Arch: HVM64
+    m1.medium:
+      Arch: HVM64
+    m1.large:
+      Arch: HVM64
+    m1.xlarge:
+      Arch: HVM64
+    m2.xlarge:
+      Arch: HVM64
+    m2.2xlarge:
+      Arch: HVM64
+    m2.4xlarge:
+      Arch: HVM64
+    m3.medium:
+      Arch: HVM64
+    m3.large:
+      Arch: HVM64
+    m3.xlarge:
+      Arch: HVM64
+    m3.2xlarge:
+      Arch: HVM64
+    m4.large:
+      Arch: HVM64
+    m4.xlarge:
+      Arch: HVM64
+    m4.2xlarge:
+      Arch: HVM64
+    m4.4xlarge:
+      Arch: HVM64
+    m4.10xlarge:
+      Arch: HVM64
+    c1.medium:
+      Arch: HVM64
+    c1.xlarge:
+      Arch: HVM64
+    c3.large:
+      Arch: HVM64
+    c3.xlarge:
+      Arch: HVM64
+    c3.2xlarge:
+      Arch: HVM64
+    c3.4xlarge:
+      Arch: HVM64
+    c3.8xlarge:
+      Arch: HVM64
+    c4.large:
+      Arch: HVM64
+    c4.xlarge:
+      Arch: HVM64
+    c4.2xlarge:
+      Arch: HVM64
+    c4.4xlarge:
+      Arch: HVM64
+    c4.8xlarge:
+      Arch: HVM64
+    g2.2xlarge:
+      Arch: HVMG2
+    g2.8xlarge:
+      Arch: HVMG2
+    r3.large:
+      Arch: HVM64
+    r3.xlarge:
+      Arch: HVM64
+    r3.2xlarge:
+      Arch: HVM64
+    r3.4xlarge:
+      Arch: HVM64
+    r3.8xlarge:
+      Arch: HVM64
+    i2.xlarge:
+      Arch: HVM64
+    i2.2xlarge:
+      Arch: HVM64
+    i2.4xlarge:
+      Arch: HVM64
+    i2.8xlarge:
+      Arch: HVM64
+    d2.xlarge:
+      Arch: HVM64
+    d2.2xlarge:
+      Arch: HVM64
+    d2.4xlarge:
+      Arch: HVM64
+    d2.8xlarge:
+      Arch: HVM64
+    hi1.4xlarge:
+      Arch: HVM64
+    hs1.8xlarge:
+      Arch: HVM64
+    cr1.8xlarge:
+      Arch: HVM64
+    cc2.8xlarge:
+      Arch: HVM64
+  AWSInstanceType2NATArch:
+    t1.micro:
+      Arch: NATHVM64
+    t2.nano:
+      Arch: NATHVM64
+    t2.micro:
+      Arch: NATHVM64
+    t2.small:
+      Arch: NATHVM64
+    t2.medium:
+      Arch: NATHVM64
+    t2.large:
+      Arch: NATHVM64
+    m1.small:
+      Arch: NATHVM64
+    m1.medium:
+      Arch: NATHVM64
+    m1.large:
+      Arch: NATHVM64
+    m1.xlarge:
+      Arch: NATHVM64
+    m2.xlarge:
+      Arch: NATHVM64
+    m2.2xlarge:
+      Arch: NATHVM64
+    m2.4xlarge:
+      Arch: NATHVM64
+    m3.medium:
+      Arch: NATHVM64
+    m3.large:
+      Arch: NATHVM64
+    m3.xlarge:
+      Arch: NATHVM64
+    m3.2xlarge:
+      Arch: NATHVM64
+    m4.large:
+      Arch: NATHVM64
+    m4.xlarge:
+      Arch: NATHVM64
+    m4.2xlarge:
+      Arch: NATHVM64
+    m4.4xlarge:
+      Arch: NATHVM64
+    m4.10xlarge:
+      Arch: NATHVM64
+    c1.medium:
+      Arch: NATHVM64
+    c1.xlarge:
+      Arch: NATHVM64
+    c3.large:
+      Arch: NATHVM64
+    c3.xlarge:
+      Arch: NATHVM64
+    c3.2xlarge:
+      Arch: NATHVM64
+    c3.4xlarge:
+      Arch: NATHVM64
+    c3.8xlarge:
+      Arch: NATHVM64
+    c4.large:
+      Arch: NATHVM64
+    c4.xlarge:
+      Arch: NATHVM64
+    c4.2xlarge:
+      Arch: NATHVM64
+    c4.4xlarge:
+      Arch: NATHVM64
+    c4.8xlarge:
+      Arch: NATHVM64
+    g2.2xlarge:
+      Arch: NATHVMG2
+    g2.8xlarge:
+      Arch: NATHVMG2
+    r3.large:
+      Arch: NATHVM64
+    r3.xlarge:
+      Arch: NATHVM64
+    r3.2xlarge:
+      Arch: NATHVM64
+    r3.4xlarge:
+      Arch: NATHVM64
+    r3.8xlarge:
+      Arch: NATHVM64
+    i2.xlarge:
+      Arch: NATHVM64
+    i2.2xlarge:
+      Arch: NATHVM64
+    i2.4xlarge:
+      Arch: NATHVM64
+    i2.8xlarge:
+      Arch: NATHVM64
+    d2.xlarge:
+      Arch: NATHVM64
+    d2.2xlarge:
+      Arch: NATHVM64
+    d2.4xlarge:
+      Arch: NATHVM64
+    d2.8xlarge:
+      Arch: NATHVM64
+    hi1.4xlarge:
+      Arch: NATHVM64
+    hs1.8xlarge:
+      Arch: NATHVM64
+    cr1.8xlarge:
+      Arch: NATHVM64
+    cc2.8xlarge:
+      Arch: NATHVM64
+  AWSRegionArch2AMI:
+    af-south-1:
+      HVM64: ami-064cc455f8a1ef504
+      HVMG2: NOT_SUPPORTED
+    ap-east-1:
+      HVM64: ami-f85b1989
+      HVMG2: NOT_SUPPORTED
+    ap-northeast-1:
+      HVM64: ami-0b2c2a754d5b4da22
+      HVMG2: ami-09d0e0e099ecabba2
+    ap-northeast-2:
+      HVM64: ami-0493ab99920f410fc
+      HVMG2: NOT_SUPPORTED
+    ap-northeast-3:
+      HVM64: ami-01344f6f63a4decc1
+      HVMG2: NOT_SUPPORTED
+    ap-south-1:
+      HVM64: ami-03cfb5e1fb4fac428
+      HVMG2: ami-0244c1d42815af84a
+    ap-southeast-1:
+      HVM64: ami-0ba35dc9caf73d1c7
+      HVMG2: ami-0e46ce0d6a87dc979
+    ap-southeast-2:
+      HVM64: ami-0ae99b503e8694028
+      HVMG2: ami-0c0ab057a101d8ff2
+    ca-central-1:
+      HVM64: ami-0803e21a2ec22f953
+      HVMG2: NOT_SUPPORTED
+    cn-north-1:
+      HVM64: ami-07a3f215cc90c889c
+      HVMG2: NOT_SUPPORTED
+    cn-northwest-1:
+      HVM64: ami-0a3b3b10f714a0ff4
+      HVMG2: NOT_SUPPORTED
+    eu-central-1:
+      HVM64: ami-0474863011a7d1541
+      HVMG2: ami-0aa1822e3eb913a11
+    eu-north-1:
+      HVM64: ami-0de4b8910494dba0f
+      HVMG2: ami-32d55b4c
+    eu-south-1:
+      HVM64: ami-08427144fe9ebdef6
+      HVMG2: NOT_SUPPORTED
+    eu-west-1:
+      HVM64: ami-015232c01a82b847b
+      HVMG2: ami-0d5299b1c6112c3c7
+    eu-west-2:
+      HVM64: ami-0765d48d7e15beb93
+      HVMG2: NOT_SUPPORTED
+    eu-west-3:
+      HVM64: ami-0caf07637eda19d9c
+      HVMG2: NOT_SUPPORTED
+    me-south-1:
+      HVM64: ami-0744743d80915b497
+      HVMG2: NOT_SUPPORTED
+    sa-east-1:
+      HVM64: ami-0a52e8a6018e92bb0
+      HVMG2: NOT_SUPPORTED
+    us-east-1:
+      HVM64: ami-032930428bf1abbff
+      HVMG2: ami-0aeb704d503081ea6
+    us-east-2:
+      HVM64: ami-027cab9a7bf0155df
+      HVMG2: NOT_SUPPORTED
+    us-west-1:
+      HVM64: ami-088c153f74339f34c
+      HVMG2: ami-0a7fc72dc0e51aa77
+    us-west-2:
+      HVM64: ami-01fee56b22f308154
+      HVMG2: ami-0fe84a5b4563d8f27
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      BlockDeviceMappings:
+        -
+          DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 50
+            VolumeType: gp2
+            DeleteOnTermination: true
+      ImageId: #Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
+        ami-0892d3c7ee96c0bf7
+        #TODO - update amis
+      #ImageId: !FindInMap
+        #        - AWSRegionArch2AMI
+        #        - !Ref 'AWS::Region'
+        #        - !FindInMap
+        #          - AWSInstanceType2Arch
+      #          - !Ref InstanceType
+      #          - Arch
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      IamInstanceProfile: !Ref AssignRole
+      Tags: 
+          - Key: Name
+            Value: Covid2019-autodialer
+          - Key: Project
+            Value: covid2019
+          - Key: Environment
+            Value: development
+          - Key: CodeDeploy
+            Value: "yes"
+      Tenancy: default
+      UserData:
+        Fn::Base64: !Sub |
+          DB_NAME=covid2019_test
+          DOMAIN_NAME=covid-test.mydomain.com
+          DBUSER=dbuser
+          DBPASS=dbpass
+          DBHOST=dbhost
+          DOMAIN_NAME=
+          SITE_URL=
+          PHONE_NUMBER=2223334444
+          REPO_ADDRESS=${RepoAddress}
+          INSTALL_DIR=/usr/local/utils
+          WWW_DIR=/var/www/html
+          #!/bin/bash -x
+          ###TMP!!! Private key for repo. Remove after repo is public!!!
+          echo "-----BEGIN OPENSSH PRIVATE KEY-----
+                b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+                NhAAAAAwEAAQAAAYEApxbyx46se80X9RrYuoA44Qjp+Ox8z7FcWYDtk4H4Mkqii5Lct1fH
+                oXuOX2s6RFAO7y0qVlWgQ9O869f+jKkSLGxeQoKobX9ZlNvMadyuORZNx6wLqMyacPf3tZ
+                nCCy8VRBh9xIevFNOviCpfdRQao8chWElCIceZ3l+QTKRNs3Qoi4l88yamG69QL6LzeSPz
+                tZ3uMOo/vbhgO+2YDUawffEDGtSjPVwFNEym830DyDKnLFCNOw1tJ3mDEkKD/XJ/wyYRQa
+                ciKSfE5o+Xxlj1LEdbmw0GJW01zkT2m8uhoZfZFpSr9SBx+xmgdiaxtbmgaqEg3t+6P8j3
+                rX2wuTudWpKrWVmxrHozGUp/3dsXMTk9bm834h0sZWJJhowtdx5Z5gXxTrctNTuzYjKRtK
+                ATfNaBEWUZJRBgMygNzugxHrhJtEkLP5KsRq/9eNVK3Z4BhzG1MbR4TjjJnMTO1aofThHj
+                bwbRufxFnyMS4VslEN/7fvaVlq70p0V05MKzCZETAAAFkPnKOIj5yjiIAAAAB3NzaC1yc2
+                EAAAGBAKcW8seOrHvNF/Ua2LqAOOEI6fjsfM+xXFmA7ZOB+DJKoouS3LdXx6F7jl9rOkRQ
+                Du8tKlZVoEPTvOvX/oypEixsXkKCqG1/WZTbzGncrjkWTcesC6jMmnD397WZwgsvFUQYfc
+                SHrxTTr4gqX3UUGqPHIVhJQiHHmd5fkEykTbN0KIuJfPMmphuvUC+i83kj87Wd7jDqP724
+                YDvtmA1GsH3xAxrUoz1cBTRMpvN9A8gypyxQjTsNbSd5gxJCg/1yf8MmEUGnIiknxOaPl8
+                ZY9SxHW5sNBiVtNc5E9pvLoaGX2RaUq/UgcfsZoHYmsbW5oGqhIN7fuj/I9619sLk7nVqS
+                q1lZsax6MxlKf93bFzE5PW5vN+IdLGViSYaMLXceWeYF8U63LTU7s2IykbSgE3zWgRFlGS
+                UQYDMoDc7oMR64SbRJCz+SrEav/XjVSt2eAYcxtTG0eE44yZzEztWqH04R428G0bn8RZ8j
+                EuFbJRDf+372lZau9KdFdOTCswmREwAAAAMBAAEAAAGBAIGcfoUn+koqZLwfsCCzl+uP85
+                bBM2wUo5NWPHQg7Htug7oLGSUrdVKhOmZwEgmtpHgJq/6+ewxCMhksOmu4Nr247kFfgvE1
+                STL8cQtpQMhNsdYCciTlWaPp5f+7ntb4FeH1sZGCwuA/+LiCTfvOtX931zjZ0u/LGmNx88
+                hP52od39mltAQVZeKx0lyxZXYB2ml2ca8F9p3faN7zxe/+dqerDgKBEYNmXy8biqHzxrxD
+                9oOclIFLP/HQA0llyWcPqiQewmgtmQfHlyyXbQTWornt8e/WA5YgK/Qc9x7gfPlTpHexFO
+                f9xZmEjRwDX5HeRUiatTw+p+KaivplauCnSCdm1i8cAjid3rodFFEn4B56q8C70SZLZYic
+                GsXO3izvu3UiygeA1p8PNShbHjDXFb0bkEPxLq3RYq8ll9NRyUfjbs+lqsLvGfeHK+xg5n
+                jVIEphV9g1KAKMROBrE9x73lVzD2hj4lCvuN3Ouq3XmOtvhBCrssYbn6dgHjVOCREfuQAA
+                AMEAg0AVRqprkvjYHVYrIyzRkI9pMhnZIwVgHQCG4QYiZKsL8rF4zA1EvagIFCgjK2by2h
+                nlowJYn5cBrP5Dnq0GJXQwDZk05LKBR/z4pqeCkgiW0nM57CAsm4r9+KHJLdLWmV1IqUL+
+                tSyPG8h+tQl0od2SwLTQRoI3BWv+C7xK+puSU2CtO0KJCkrgvwB7J1ooqiAVEH9oMyzlVg
+                I6wKVQ10XzvezLkSZ+3+Zos3ghQs7jhr3r7XGKqWsLnv1gr6NkAAAAwQDcXKybqXCKqdDx
+                IUfX0RBCo/IptecJNgKhF/A/jJvPHGZAjWqkm5LPGVzoFHzMvHw9ytr1kOT/ojmHz30jLd
+                L+aJrXOP6LYXrMeV53lioloaIi14VYTjowzH0dQ2PoZkHhhPVCxJnSzMXLaV3PMGYHhWBC
+                7c0/6+LnBE06rp2FVqJbdJEjx23hpbsKpj/YTSqDd7FtvcopjR0umuj/TJVytJMw9+eyqF
+                LZxrh+F2nKQ5NNgqgmuptJrNDZDYiBBTcAAADBAMIct117XR+HXCGhm5ysFTt+zZGW1g0y
+                Afifqp2cj8lIr0hug6T5c0kYuBkx8FFN4MH+mta2LhlmQptK1zdFZUo/UTZaw8YvwvXybe
+                0GDxHaRzUDv8LyHH172kUcEgRnaOlqYiydZWyWDezqS2sP75YNb7VYfW0fDGESWVj4xOKc
+                sZv+aD+6uNrRxZFA1wiUuHXc1yqhqVDET6TgdfOIlaiyxSD9n4Cc1RFU1l0mXAfHP4yQo4
+                oT5NgxCxv8pBrBBQAAABV1YnVudHVAaXAtMTcyLTMxLTEtODcBAgME
+                -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          export IP_ADDRESS=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
+          if [[ ! -d ${!INSTALL_DIR} ]]; then
+            mkdir -p ${!INSTALL_DIR}
+          fi
+          cd ${!INSTALL_DIR}
+          #UPDATE git clone ${!REPO_ADDRESS} covid
+          git clone ${!REPO_ADDRESS} covid
+          cd covid/
+          ./backend-asterisk/scripts/install_4_cloudformation.sh
+
+  
+  AssignRole:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles: 
+        - CodeDeploy-EC2-Instance-Profile
+
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: !Ref SSHLocation
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: '0.0.0.0/0'
+
+  IPAddress:
+    Type: 'AWS::EC2::EIP'
+  IPAssoc:
+    Type: 'AWS::EC2::EIPAssociation'
+    Properties:
+      InstanceId: !Ref EC2Instance
+      EIP: !Ref IPAddress
+
+Outputs:
+  InstanceId:
+    Description: InstanceId of the newly created EC2 instance
+    Value: !Ref EC2Instance
+  InstanceIPAddress:
+    Description: IP address of the newly created EC2 instance
+    Value: !Ref IPAddress
