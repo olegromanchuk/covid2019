@@ -370,10 +370,14 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       BlockDeviceMappings:
-        -
-          DeviceName: /dev/sda1
+        - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 50
+            VolumeType: gp2
+            DeleteOnTermination: true
+        - DeviceName: /dev/sdf
+          Ebs:
+            VolumeSize: 2
             VolumeType: gp2
             DeleteOnTermination: true
       ImageId: #Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
@@ -403,18 +407,18 @@ Resources:
       Tenancy: default
       UserData:
         Fn::Base64: !Sub |
-          DB_NAME=covid2019_test
-          DOMAIN_NAME=covid-test.mydomain.com
-          DBUSER=dbuser
-          DBPASS=dbpass
-          DBHOST=dbhost
-          DOMAIN_NAME=
-          SITE_URL=
-          PHONE_NUMBER=2223334444
-          REPO_ADDRESS=${RepoAddress}
-          INSTALL_DIR=/usr/local/utils
-          WWW_DIR=/var/www/html
           #!/bin/bash -x
+          export DB_NAME=covid2019_test
+          export DOMAIN_NAME=covid-test.mydomain.com
+          export DBUSER=dbuser
+          export DBPASS=dbpass
+          export DBHOST=dbhost
+          export DOMAIN_NAME=
+          export SITE_URL=
+          export PHONE_NUMBER=2223334444
+          export REPO_ADDRESS=${RepoAddress}
+          export INSTALL_DIR=/usr/local/utils
+          export WWW_DIR=/var/www/html
           ###TMP!!! Private key for repo. Remove after repo is public!!!
           echo "-----BEGIN OPENSSH PRIVATE KEY-----
           b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
@@ -463,7 +467,7 @@ Resources:
           #UPDATE git clone ${!REPO_ADDRESS} covid
           GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone ${!REPO_ADDRESS} covid
           cd covid/backend-asterisk/
-          #./scripts/install_4_cloudformation.sh
+          #./scripts/install_4_cloudformation_ubuntu.sh
 
   
   AssignRole:
