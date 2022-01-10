@@ -3,6 +3,7 @@
 #Install everything first time
 
 if [[ ! -f /usr/local/utils/systeminstalled_flag ]]; then
+
 mkswap /dev/xvdf
 swapon /dev/xvdf
 echo "/dev/xvdf none swap sw 0 0" >> /etc/fstab
