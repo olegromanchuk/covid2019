@@ -468,7 +468,7 @@ Resources:
           #UPDATE git clone ${!REPO_ADDRESS} covid
           GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone ${!REPO_ADDRESS} covid
           cd covid/backend-asterisk/
-          #./scripts/install_4_cloudformation_ubuntu.sh
+          ./scripts/install_4_cloudformation_ubuntu.sh
 
   
   AssignRole:
