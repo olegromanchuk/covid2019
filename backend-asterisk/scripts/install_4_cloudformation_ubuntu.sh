@@ -13,7 +13,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
 
 apt-get update -y
 apt-get upgrade -y
-apt install php-bcmath composer unzip nginx php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer mailx -y
+apt install php-bcmath composer unzip nginx php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer -y
 
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
@@ -23,7 +23,7 @@ sudo systemctl stop nginx.service
 sudo systemctl start nginx.service
 sudo systemctl enable nginx.service
 
-composer global require laravel/installer
+composer global require laravel/install
 
 #updating apache config
 sed -i 's#DocumentRoot "/var/www/html"#DocumentRoot "/var/www/html/covid2019-auto-dialer-front/public"#' /etc/httpd/conf/httpd.
@@ -72,8 +72,8 @@ fi
 #unzip awscliv2.zip
 #sudo ./aws/install
 
-
-scripts/aws_code_deploy/before_install.sh
-scripts/aws_code_deploy/install.sh
-scripts/aws_code_deploy/application_start.sh
-scripts/aws_code_deploy/validate.sh
+cd /usr/local/utils/covid/backend-asterisk/
+./scripts/aws_code_deploy/before_install.sh
+./scripts/aws_code_deploy/install.sh
+./scripts/aws_code_deploy/application_start.sh
+./scripts/aws_code_deploy/validate.sh
