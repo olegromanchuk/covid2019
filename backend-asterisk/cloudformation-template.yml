@@ -419,6 +419,7 @@ Resources:
           export REPO_ADDRESS=${RepoAddress}
           export INSTALL_DIR=/usr/local/utils
           export WWW_DIR=/var/www/html
+          export COMPOSER_ALLOW_SUPERUSER=1
           ###TMP!!! Private key for repo. Remove after repo is public!!!
           echo "-----BEGIN OPENSSH PRIVATE KEY-----
           b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
