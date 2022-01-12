@@ -7,6 +7,7 @@
 - [ ] installation via code deploy pipeline. Create codedeploy pipeline template for cloudformation
 - [ ] update git clone ${!REPO_ADDRESS} covid in user-data in ec2. Remove authorization
 - [ ] update cloudformation-template.yml - remove ssh private key for repo. Remove after repo is public!!!
+- [ ] festival
 
 # Automated Dialing System MaWaSys
 #### (mass warning system)

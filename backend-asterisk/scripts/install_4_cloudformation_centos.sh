@@ -23,7 +23,7 @@ yum update -y
 yum install composer -y
 yum install mailx -y
 yum install npm -y
-yum install festival -y
+  yum install festival -y
 yum install yum-utils -y
 yum install rpmconf -y
 yum install ruby -y

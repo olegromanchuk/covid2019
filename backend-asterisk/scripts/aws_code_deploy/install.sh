@@ -1,7 +1,6 @@
-#!/bin/bash
+#!/bin/bash -xe
 # v.1.2 Installer for mass warning/notification system - MaWaSys
 #exit on error
-set -e
 
 WORK_DIR=/usr/local/utils/covid
 #from env: WWW_DIR=/var/www/html

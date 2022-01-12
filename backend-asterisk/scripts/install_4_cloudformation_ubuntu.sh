@@ -13,8 +13,9 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
 
 apt-get update -y
 apt-get upgrade -y
-apt install php-bcmath composer unzip libapache2-mod-php php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer php-mysql php-curl php-gd php-xml php-bcmath php-pear -y
+apt install apache2 php-bcmath unzip libapache2-mod-php php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer php-mysql php-curl php-gd php-xml php-bcmath php-pear -y
 
+echo "installing composer"
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
@@ -25,32 +26,32 @@ systemctl enable apache2.service
 ufw allow in "Apache Full"
 sudo a2enmod rewrite
 
-composer global require laravel/installer
+/usr/local/bin/composer global require laravel/installer
 
 #updating apache config
-#sed -i 's#DocumentRoot "/var/www/html"#DocumentRoot "/var/www/html/covid2019-auto-dialer-front/public"#' /etc/apache2/conf/httpd
-#echo "<LocationMatch "^/+\$">
-#          Options -Indexes
-#          ErrorDocument 403 /.noindex.html
-#      </LocationMatch>
-#
-#      <Directory /var/www/html/covid2019-auto-dialer-front/public>
-#          AllowOverride All
-#      </Directory>" > /etc/apache2/conf.d/covid2019.conf
-#systemctl restart apache2.service
-#
-#echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >> /var/spool/cron/root
-#systemctl reload crond
+a2dissite 000-default
+systemctl reload apache2
 
-mkdir /var/log/festival
-cd /var/log/festival
-/bin/festival_server &
-echo "cd /var/log/festival/; /bin/festival_server &" >> /etc/rc.local
+sed -i 's#DocumentRoot "/var/www/html"#DocumentRoot "/var/www/html/covid2019-auto-dialer-front/public"#' /etc/apache2/conf/httpd
 
-systemctl enable iptables
-systemctl disable firewalld
-systemctl stop firewalld
-systemctl disable mysqld
+echo "<LocationMatch "^/+\$">
+          Options -Indexes
+          ErrorDocument 403 /.noindex.html
+      </LocationMatch>
+
+      <Directory /var/www/html/covid2019-auto-dialer-front/public>
+          AllowOverride All
+      </Directory>" > /etc/apache2/sites-enabled/covid2019.conf
+systemctl restart apache2.service
+
+echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >> /var/spool/cron/root
+systemctl reload crond
+
+#apt install festival -y
+#mkdir /var/log/festival
+#cd /var/log/festival
+#/bin/festival_server &
+#echo "cd /var/log/festival/; /bin/festival_server &" >> /etc/rc.local
 
 ##install codedeploy Agent
 #yum update -y
