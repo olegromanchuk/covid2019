@@ -2,7 +2,7 @@
 # v.1.2 Installer for mass warning/notification system - MaWaSys
 #exit on error
 
-WORK_DIR=/usr/local/utils/covid
+WORK_DIR=/usr/local/utils/covid/backend-asterisk
 #from env: WWW_DIR=/var/www/html
 cd ${WORK_DIR} &&
 
@@ -49,7 +49,7 @@ IVR_DIR=/var/lib/asterisk/sounds/covid2019
 #read -p "Site url (supersite.domain.com): " SITE_URL
 
 if [[ -z ${DBNAME} || -z ${SITE_URL} || -z ${PHONE_NUMBER} ]]; then
-  echo "Empty DBNAME or SITE_URL or PHONE_NUMBER or IP_ADDRESS"
+  echo "Empty DBNAME or SITE_URL or PHONE_NUMBER"
   exit 1
 fi
 
@@ -58,7 +58,7 @@ mkdir log &&
   echo "creating mysql database and user..."
 echo "CREATE DATABASE ${DBNAME};" | mysql -h ${DBHOST} -u ${DBUSER} -p${DBPASS}
 if [[ $? == 1 ]]; then
-  echo "database ${DBNAME} already exists"
+  echo "datab ase ${DBNAME} already exists"
   exit 1
 fi
 MYIP=$(ip a | grep "scope global dynamic eth0" | awk '{print $2}' | awk -F '/' '{print $1}')
@@ -131,10 +131,11 @@ cp backend_dialer.service /etc/systemd/system/
 systemctl enable backend_dialer
 systemctl start backend_dialer
 
+cd ..
 echo "Download frontend..."
 cp -prf frontend ${WWW_DIR}/covid2019-auto-dialer-front &&
 cd ${WWW_DIR}/ &&
-  cd covid2019-auto-dialer-front/
+cd covid2019-auto-dialer-front/
   composer update
 npm install npm run dev
 

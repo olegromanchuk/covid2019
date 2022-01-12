@@ -94,7 +94,7 @@ Parameters:
     MinLength: '1'
     MaxLength: '16'
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
-    Default: databaseadminRe3fvd3h
+    Default: dbadminRe3fvd3h
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBPassword:
     NoEcho: 'true'
@@ -439,7 +439,7 @@ Resources:
           export DBNAME=${DBName}
           export DBUSER=${DBUsername}
           export DBPASS=${DBPassword}
-          export DBHOST=${DatabaseHost}
+          export DBHOST=!GetAtt MariaDB.Endpoint.Add
           export SITE_URL=mysite.net
           export PHONE_NUMBER=2223334444
           export REPO_ADDRESS=${RepoAddress}
@@ -447,17 +447,17 @@ Resources:
           export WWW_DIR=/var/www/html
           export COMPOSER_ALLOW_SUPERUSER=1
 
-          echo "DOMAIN_NAME=covid-test.mydomain.com" > /tmp/env.sh
-          echo "DBNAME=${DBName}" >> /tmp/env.sh
-          echo "DBUSER=${DBUsername}" >> /tmp/env.sh
-          echo "DBPASS=${DBPassword}" >> /tmp/env.sh
-          echo "DBHOST=${DatabaseHost}" >> /tmp/env.sh
-          echo "SITE_URL=mysite.net" >> /tmp/env.sh
-          echo "PHONE_NUMBER=2223334444" >> /tmp/env.sh
-          echo "REPO_ADDRESS=${RepoAddress}" >> /tmp/env.sh
-          echo "INSTALL_DIR=/usr/local/utils" >> /tmp/env.sh
-          echo "WWW_DIR=/var/www/html" >> /tmp/env.sh
-          echo "COMPOSER_ALLOW_SUPERUSER=1" >> /tmp/env.sh
+          echo "export DOMAIN_NAME=covid-test.mydomain.com" > /tmp/env.sh
+          echo "export DBNAME=${DBName}" >> /tmp/env.sh
+          echo "export DBUSER=${DBUsername}" >> /tmp/env.sh
+          echo "export DBPASS=${DBPassword}" >> /tmp/env.sh
+          echo "export DBHOST=!GetAtt MariaDB.Endpoint.Add" >> /tmp/env.sh
+          echo "export SITE_URL=mysite.net" >> /tmp/env.sh
+          echo "export PHONE_NUMBER=2223334444" >> /tmp/env.sh
+          echo "export REPO_ADDRESS=${RepoAddress}" >> /tmp/env.sh
+          echo "export INSTALL_DIR=/usr/local/utils" >> /tmp/env.sh
+          echo "export WWW_DIR=/var/www/html" >> /tmp/env.sh
+          echo "export COMPOSER_ALLOW_SUPERUSER=1" >> /tmp/env.sh
 
           ###TMP!!! Private key for repo. Remove after repo is public!!!
           echo "-----BEGIN OPENSSH PRIVATE KEY-----
@@ -507,7 +507,7 @@ Resources:
           #UPDATE git clone ${!REPO_ADDRESS} covid
           GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone ${!REPO_ADDRESS} covid
           cd covid/backend-asterisk/
-          #./scripts/install_4_cloudformation_ubuntu.sh
+          ./scripts/install_4_cloudformation_ubuntu.sh
 
   
   AssignRole:
@@ -559,4 +559,4 @@ Outputs:
     Value: !Ref IPAddress
   DatabaseHost:
     Description: DatabaseHostUrl
-    Value: !GetAttr [MariaDB, Endpoint.Address]
+    Value: !GetAtt MariaDB.Endpoint.Address
