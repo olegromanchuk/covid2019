@@ -79,6 +79,33 @@ Parameters:
     Description: Address of repository from where the source code should be downloaded
     Type: String
     Default: git@github.com:xyrk/covid2019.git
+  DBName:
+    Default: covid2019autodialer
+    Description: Covid2019
+    Type: String
+    MinLength: '1'
+    MaxLength: '64'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: Must begin with a letter and contain only alphanumeric characters.
+  DBUsername:
+    NoEcho: 'true'
+    Description: Username for database access
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    Default: databaseadminRe3fvd3h
+    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+  DBPassword:
+    NoEcho: 'true'
+    Description: Password database access
+    Type: String
+    MinLength: '8'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]*'
+    Default: databasepass3RfRe3fvd3h
+    ConstraintDescription: must contain only alphanumeric characters.
+
 Mappings:
   AWSInstanceType2Arch:
     t1.micro:
@@ -408,18 +435,30 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -x
-          export DB_NAME=covid2019_test
           export DOMAIN_NAME=covid-test.mydomain.com
-          export DBUSER=dbuser
-          export DBPASS=dbpass
-          export DBHOST=dbhost
-          export DOMAIN_NAME=
-          export SITE_URL=
+          export DBNAME=${DBName}
+          export DBUSER=${DBUsername}
+          export DBPASS=${DBPassword}
+          export DBHOST=${DatabaseHost}
+          export SITE_URL=mysite.net
           export PHONE_NUMBER=2223334444
           export REPO_ADDRESS=${RepoAddress}
           export INSTALL_DIR=/usr/local/utils
           export WWW_DIR=/var/www/html
           export COMPOSER_ALLOW_SUPERUSER=1
+
+          echo "DOMAIN_NAME=covid-test.mydomain.com" > /tmp/env.sh
+          echo "DBNAME=${DBName}" >> /tmp/env.sh
+          echo "DBUSER=${DBUsername}" >> /tmp/env.sh
+          echo "DBPASS=${DBPassword}" >> /tmp/env.sh
+          echo "DBHOST=${DatabaseHost}" >> /tmp/env.sh
+          echo "SITE_URL=mysite.net" >> /tmp/env.sh
+          echo "PHONE_NUMBER=2223334444" >> /tmp/env.sh
+          echo "REPO_ADDRESS=${RepoAddress}" >> /tmp/env.sh
+          echo "INSTALL_DIR=/usr/local/utils" >> /tmp/env.sh
+          echo "WWW_DIR=/var/www/html" >> /tmp/env.sh
+          echo "COMPOSER_ALLOW_SUPERUSER=1" >> /tmp/env.sh
+
           ###TMP!!! Private key for repo. Remove after repo is public!!!
           echo "-----BEGIN OPENSSH PRIVATE KEY-----
           b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
@@ -468,7 +507,7 @@ Resources:
           #UPDATE git clone ${!REPO_ADDRESS} covid
           GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone ${!REPO_ADDRESS} covid
           cd covid/backend-asterisk/
-          ./scripts/install_4_cloudformation_ubuntu.sh
+          #./scripts/install_4_cloudformation_ubuntu.sh
 
   
   AssignRole:
@@ -499,6 +538,18 @@ Resources:
       InstanceId: !Ref EC2Instance
       EIP: !Ref IPAddress
 
+  MariaDB:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceIdentifier: covid2019databaseinstance
+      DBName: covid2019database
+      DBInstanceClass: db.t2.micro
+      AllocatedStorage: 20
+      Engine: MariaDB
+      EngineVersion: 10.5.13
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+
 Outputs:
   InstanceId:
     Description: InstanceId of the newly created EC2 instance
@@ -506,3 +557,6 @@ Outputs:
   InstanceIPAddress:
     Description: IP address of the newly created EC2 instance
     Value: !Ref IPAddress
+  DatabaseHost:
+    Description: DatabaseHostUrl
+    Value: !GetAttr [MariaDB, Endpoint.Address]
