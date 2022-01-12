@@ -13,7 +13,9 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
 
 apt-get update -y
 apt-get upgrade -y
-apt install apache2 php-bcmath unzip libapache2-mod-php php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer php-mysql php-curl php-gd php-xml php-bcmath php-pear -y
+apt install apache2 php-bcmath unzip libapache2-mod-php php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer php-mysql php-curl php-gd php-xml php-bcmath php-pear npm -y
+
+apt install mysql-client -y
 
 echo "installing composer"
 curl -sS https://getcomposer.org/installer | php
@@ -32,7 +34,7 @@ sudo a2enmod rewrite
 a2dissite 000-default
 systemctl reload apache2
 
-sed -i 's#DocumentRoot "/var/www/html"#DocumentRoot "/var/www/html/covid2019-auto-dialer-front/public"#' /etc/apache2/conf/httpd
+#sed -i 's#DocumentRoot "/var/www/html"#DocumentRoot "/var/www/html/covid2019-auto-dialer-front/public"#' /etc/apache2/conf/httpd
 
 echo "<LocationMatch "^/+\$">
           Options -Indexes
