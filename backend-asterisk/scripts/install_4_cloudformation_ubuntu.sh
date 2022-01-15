@@ -1,12 +1,20 @@
 #!/bin/bash
 
+#if base software (php, asterisk) is installed - run just specific installation scripts (dialer scripts, FE-laravel, BE-go)
+if [[ -f /usr/local/utils/systeminstalled_flag ]]; then
+  #the scripts in this section could also be run by codeDeploy
+  cd /usr/local/utils/covid/backend-asterisk/
+  ./scripts/aws_code_deploy/before_install.sh
+  ./scripts/aws_code_deploy/install.sh
+  ./scripts/aws_code_deploy/application_start.sh
+  ./scripts/aws_code_deploy/validate.sh
+  exit
+fi
+
 #Install everything first time
-
-if [[ ! -f /usr/local/utils/systeminstalled_flag ]]; then
-
 mkswap /dev/xvdf
 swapon /dev/xvdf
-echo "/dev/xvdf none swap sw 0 0" >> /etc/fstab
+echo "/dev/xvdf none swap sw 0 0" >>/etc/fstab
 
 rm /etc/localtime
 ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
@@ -17,9 +25,9 @@ apt install apache2 php-bcmath unzip libapache2-mod-php php-common php-fpm php-j
 
 apt install mysql-client -y
 
-echo "installing composer"
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
+echo "installing composer..."
+curl -sS https://getcomposer.org/installer | php &&
+  mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
 
 systemctl stop apache2.service
@@ -43,11 +51,14 @@ echo "<LocationMatch "^/+\$">
 
       <Directory /var/www/html/covid2019-auto-dialer-front/public>
           AllowOverride All
-      </Directory>" > /etc/apache2/sites-enabled/covid2019.conf
+      </Directory>" >/etc/apache2/sites-enabled/covid2019.conf
 systemctl restart apache2.service
 
-echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >> /var/spool/cron/root
-systemctl reload crond
+echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
+systemctl restart crond
+
+#install asterisk 18
+apt install make wget build-essential git autoconf subversion pkg-config asterisk -y
 
 #apt install festival -y
 #mkdir /var/log/festival
@@ -65,9 +76,8 @@ systemctl reload crond
 #sudo ./install auto
 ##systemctl status codedeploy-agent
 
-#add flag that everything is installed
-touch /usr/local/utils/systeminstalled_flag
-fi
+#add flag that everything was installed
+touch /usr/local/utils/covid/systeminstalled_flag
 
 #install aws. Probably, not necessary
 #cd /usr/local/src/ &&
