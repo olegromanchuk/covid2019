@@ -8,6 +8,8 @@
 - [ ] update git clone ${!REPO_ADDRESS} covid in user-data in ec2. Remove authorization
 - [ ] update cloudformation-template.yml - remove ssh private key for repo. Remove after repo is public!!!
 - [ ] festival
+- [ ] asterisk in docker on fargate - release 2.0.0
+- [ ] laravel in docker - release 3.0.0
 
 # Automated Dialing System MaWaSys
 #### (mass warning system)
