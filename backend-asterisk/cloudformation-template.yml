@@ -76,10 +76,23 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  HTTPLocation:
+    Description: The IP address range that can be used to access web interface
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 108.46.212.216/32
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
   RepoAddress:
     Description: Address of repository from where the source code should be downloaded
     Type: String
     Default: git@github.com:xyrk/covid2019.git
+  AdminEmail:
+    Type: String
+    Description: Email for notifications
+    AllowedPattern: /[^\\s@]+@[^\\s@]+\.[^\\s@]+/
+    Default: alexr@improcom.com
   DBName:
     Default: covid2019autodialer
     Description: Covid2019
@@ -438,33 +451,36 @@ Resources:
         Fn::Base64: !Sub
         - |
           #!/bin/bash -x
-          export DOMAIN_NAME=covid-test.mydomain.com
           export DBNAME=${DBName}
           export DBUSER=${DBUsername}
           export DBPASS=${DBPassword}
           export DBHOST=${DBHost}
-          export SITE_URL=mysite.net
+          export SITE_URL=covid-test.mydomain.com
           export PHONE_NUMBER=2223334444
+          export ADMIN_EMAIL=${AdminEmail}
           export REPO_ADDRESS=${RepoAddress}
           export INSTALL_DIR=/usr/local/utils
           export WWW_DIR=/var/www/html
           export COMPOSER_ALLOW_SUPERUSER=1
           export HOME=/root
           export COMPOSER_HOME=/root/.config/composer
+          export NODE_OPTIONS=--openssl-legacy-provider
 
-          echo "export DOMAIN_NAME=covid-test.mydomain.com" > /tmp/env.sh
           echo "export DBNAME=${DBName}" >> /tmp/env.sh
           echo "export DBUSER=${DBUsername}" >> /tmp/env.sh
           echo "export DBPASS=${DBPassword}" >> /tmp/env.sh
           echo "export DBHOST=${DBHost}" >> /tmp/env.sh
-          echo "export SITE_URL=mysite.net" >> /tmp/env.sh
+          echo "export SITE_URL=covid-test.mydomain.com" >> /tmp/env.sh
           echo "export PHONE_NUMBER=2223334444" >> /tmp/env.sh
+          echo "export ADMIN_EMAIL=${AdminEmail}" >> /tmp/env.sh
           echo "export REPO_ADDRESS=${RepoAddress}" >> /tmp/env.sh
           echo "export INSTALL_DIR=/usr/local/utils" >> /tmp/env.sh
           echo "export WWW_DIR=/var/www/html" >> /tmp/env.sh
           echo "export COMPOSER_ALLOW_SUPERUSER=1" >> /tmp/env.sh
           echo "export HOME=/root" >> /tmp/env.sh
           echo "export COMPOSER_HOME=/root/.config/composer" >> /tmp/env.sh
+          echo "export NODE_OPTIONS=--openssl-legacy-provider" >> /tmp/env.sh
+
 
           ###TMP!!! Private key for repo. Remove after repo is public!!!
           echo "-----BEGIN OPENSSH PRIVATE KEY-----
@@ -535,7 +551,11 @@ Resources:
         - IpProtocol: tcp
           FromPort: '80'
           ToPort: '80'
-          CidrIp: '0.0.0.0/0'
+          CidrIp: !Ref HTTPLocation
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: !Ref HTTPLocation
 
   IPAddress:
     Type: 'AWS::EC2::EIP'

@@ -5,16 +5,25 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Improcom Notification System MaWaSys</h4>
+                <h4 class="modal-title">Automated Dialing System (open source) - ADSoS</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Version 1.5</p>
+                <p>Version 2.0</p>
+                <hr/>
+                <h5>Redesigned backend architecture: <br>
+                - runs on Ubuntu
+                - unified repo for backend and frontend
+                </h5>
+
+                <p>Version 1.6</p>
                 <hr/>
                 <h5>Changelog</h5>
+
                 <p>Version 1.5</p>
                 Three simultaneous calls are now allowed.
                 <hr/>
+
                 <p>Version 1.4</p>
                 Added status for running campaign.
                 <hr/>

@@ -2,6 +2,8 @@
 - [ ] screenshots
 - [ ] config_campaign_generator_template
 - [ ] covidcampaigngenerator.php
+- [ ] remove default values from cloudformation template
+- [ ] add SSL for FE  
 - [ ] embed install_4_cloudformation.sh into cloudformation-template.yml
 - [ ] add to cloudformation-template ami from all regions. Currently, the static ami-0892d3c7ee96c0bf7 is set for us-west-2 only
 - [ ] installation via code deploy pipeline. Create codedeploy pipeline template for cloudformation
