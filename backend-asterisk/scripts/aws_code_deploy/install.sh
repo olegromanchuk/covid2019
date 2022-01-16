@@ -165,6 +165,10 @@ fi
 systemctl start apache2
 
 #install backend for laravel
+cd ${WORK_DIR}/../backend-go
+go build -o backend-dialer rest.go
+cp -prf backend-dialer ${WORK_DIR}/backend/
+
 
 echo "-----------------------------------------"
 echo "-----------------Complete----------------"

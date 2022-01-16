@@ -3,10 +3,10 @@ Description=Backend Automated Dialer Service
 After=network.target
 
 [Service]
-WorkingDirectory=/usr/local/utils/covid/backend/
+WorkingDirectory=/usr/local/utils/covid/backend-asterisk/backend/
 Type=simple
 User=root
-ExecStart=/usr/local/utils/covid/backend/backend-dialer
+ExecStart=/usr/local/utils/covid/backend-asterisk/backend/backend-dialer
 Restart=always
 
 [Install]
