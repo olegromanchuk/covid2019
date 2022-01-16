@@ -29,9 +29,6 @@ IVR_DIR=/var/lib/asterisk/sounds/covid2019
 #                "DBHOST")
 #                        DBHOST=${VALUE}
 #                        ;;
-#                "DOMAIN_NAME")
-#                        SITE_URL=${VALUE}
-#                        ;;
 #                "PHONE_NUMBER")
 #                        PHONE_NUMBER=${VALUE}
 #                        ;;
@@ -137,10 +134,11 @@ cp -prf frontend ${WWW_DIR}/covid2019-auto-dialer-front &&
 cd ${WWW_DIR}/ &&
 cd covid2019-auto-dialer-front/
   composer update
-npm install npm run dev
+npm install
+npm run dev
 
 echo "Updating owner for frontend (takes time)..."
-chown apache:apache /var/www/html/ -R &&
+chown www-data:www-data /var/www/html/ -R &&
   echo "Updating frontend config..."
 cd ${WORK_DIR}/ &&
   echo "Update template_db_host env_template4frontend..."
@@ -164,7 +162,9 @@ if [[ ${INCRON} == 0 ]]; then
   echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
   systemctl restart crond
 fi
-systemctl start httpd
+systemctl start apache2
+
+#install backend for laravel
 
 echo "-----------------------------------------"
 echo "-----------------Complete----------------"
