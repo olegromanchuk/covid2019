@@ -24,6 +24,7 @@ apt-get upgrade -y
 apt install apache2 php-bcmath unzip libapache2-mod-php php-common php-fpm php-json php-mbstring php-zip php-cli php-xml curl php-tokenizer php-mysql php-curl php-gd php-xml php-bcmath php-pear npm -y
 
 apt install mysql-client -y
+apt install golang -y
 
 echo "installing composer..."
 curl -sS https://getcomposer.org/installer | php &&
