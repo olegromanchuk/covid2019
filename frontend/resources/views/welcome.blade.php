@@ -82,7 +82,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Covid 2019 Predictive Dialer
+                    Automated Dialing System (open source) - ADSoS
                 </div>
 
                 <div class="links">

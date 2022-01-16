@@ -2,7 +2,7 @@
 #exit on error
 set -e
 
-WORK_DIR=/usr/local/utils/covid/
+WORK_DIR=/usr/local/utils/covid/backend-asterisk
 cd ${WORK_DIR} &&
 
 #check that configs are exist

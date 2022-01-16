@@ -30,6 +30,10 @@ curl -sS https://getcomposer.org/installer | php &&
   mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
 
+echo "installing fresh nodejs"
+curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
 systemctl stop apache2.service
 systemctl start apache2.service
 systemctl enable apache2.service
@@ -39,19 +43,20 @@ sudo a2enmod rewrite
 /usr/local/bin/composer global require laravel/installer
 
 #updating apache config
+echo "<VirtualHost *:80>
+ServerName ${SITE_URL}
+ServerAdmin ${ADMIN_EMAIL}
+DocumentRoot /var/www/html/covid2019-auto-dialer-front/public
+<Directory /var/www/html/covid2019-auto-dialer-front>
+AllowOverride All
+</Directory>
+ErrorLog /var/log/apache2/error.log
+CustomLog /var/log/apache2/access.log combined
+</VirtualHost>" >/etc/apache2/sites-available/covid2019.conf
+
+a2enmod rewrite
 a2dissite 000-default
-systemctl reload apache2
-
-#sed -i 's#DocumentRoot "/var/www/html"#DocumentRoot "/var/www/html/covid2019-auto-dialer-front/public"#' /etc/apache2/conf/httpd
-
-echo "<LocationMatch "^/+\$">
-          Options -Indexes
-          ErrorDocument 403 /.noindex.html
-      </LocationMatch>
-
-      <Directory /var/www/html/covid2019-auto-dialer-front/public>
-          AllowOverride All
-      </Directory>" >/etc/apache2/sites-enabled/covid2019.conf
+a2ensite covid2019
 systemctl restart apache2.service
 
 echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
