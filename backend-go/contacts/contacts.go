@@ -2,13 +2,13 @@ package contacts
 
 import (
 	"bytes"
+	"covid2019/config"
+	"covid2019/utils"
 	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/improcom/covid2019-predictive-dialer-backend-go/config"
-	"github.com/improcom/covid2019-predictive-dialer-backend-go/utils"
 	"regexp"
 )
 
@@ -185,8 +185,8 @@ func CreateContacts(contacts []Contact) (iErrors []error) {
 				contact.PhoneNumber = iBuffer.String()
 			}
 		} else {
-			reassembledContact := fmt.Sprintf("%v,%v,%v,%v", contact.Name, contact.PhoneNumber,contact.Email,contact.Description)
-			errNotValidPhoneNumber := errors.New(fmt.Sprintf("The number: %v in the line -- %v -- is not valid US number. Must be 10 digits long.", phoneAccurate,reassembledContact))
+			reassembledContact := fmt.Sprintf("%v,%v,%v,%v", contact.Name, contact.PhoneNumber, contact.Email, contact.Description)
+			errNotValidPhoneNumber := errors.New(fmt.Sprintf("The number: %v in the line -- %v -- is not valid US number. Must be 10 digits long.", phoneAccurate, reassembledContact))
 			iErrors = append(iErrors, errNotValidPhoneNumber)
 			continue
 		}
@@ -224,7 +224,7 @@ VALUES (?,?,?,?,?)`)
 			return err
 		}
 		if me.Number == 1062 {
-			return errors.New(fmt.Sprintf("The number %v already exists in the system",contact.PhoneNumber ))
+			return errors.New(fmt.Sprintf("The number %v already exists in the system", contact.PhoneNumber))
 		}
 		return err
 	}

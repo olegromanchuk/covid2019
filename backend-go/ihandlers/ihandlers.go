@@ -1,13 +1,13 @@
 package ihandlers
 
 import (
+	"covid2019/callrecords"
+	"covid2019/campaigns"
+	"covid2019/contacts"
+	"covid2019/utils"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/xyrk/covid2019/callrecords"
-	"github.com/xyrk/covid2019/campaigns"
-	"github.com/xyrk/covid2019/contacts"
-	"github.com/xyrk/covid2019/utils"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
@@ -169,15 +169,15 @@ func UploadContacts(w http.ResponseWriter, req *http.Request) {
 				Description: sliceRecord[3],
 			}
 			allContacts = append(allContacts, contact)
-		} else {  //error
-			allErrors = append (allErrors,errors.New(fmt.Sprintf("Check if this record is correct:---\"%v\" --- Must have exactly 3 commas. Detected only %v ",val, len(sliceRecord)-1)))
+		} else { //error
+			allErrors = append(allErrors, errors.New(fmt.Sprintf("Check if this record is correct:---\"%v\" --- Must have exactly 3 commas. Detected only %v ", val, len(sliceRecord)-1)))
 			logrus.Error(val)
 		}
 	}
 
 	sliceErrors := contacts.CreateContacts(allContacts)
 
-	allErrors = append(allErrors,sliceErrors...)
+	allErrors = append(allErrors, sliceErrors...)
 
 	if len(allErrors) > 0 {
 		var result []map[string]string
@@ -326,7 +326,7 @@ func CreateCampaignCallRecords(w http.ResponseWriter, req *http.Request) {
 
 	type StructReturn struct {
 		ErrorRecords   []string `json:"error,omitempty"`
-		CreatedRecords int    `json:"created_records"`
+		CreatedRecords int      `json:"created_records"`
 	}
 
 	type DatatablesIn struct {
@@ -361,7 +361,7 @@ func CreateCampaignCallRecords(w http.ResponseWriter, req *http.Request) {
 	if len(sliceErrors) > 0 {
 		var stringError []string
 		for _, val := range sliceErrors {
-			stringError = append(stringError,val.Error())
+			stringError = append(stringError, val.Error())
 		}
 		result := StructReturn{CreatedRecords: amountOfCreatedRecords, ErrorRecords: stringError}
 		//spew.Dump(result)
