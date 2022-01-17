@@ -64,7 +64,7 @@ echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cr
 systemctl restart crond
 
 #install asterisk 18
-apt install make wget build-essential git autoconf subversion pkg-config asterisk -y
+apt install make wget build-essential git autoconf subversion pkg-config asterisk asterisk-core-sounds-en-wav -y
 
 #apt install festival -y
 #mkdir /var/log/festival
