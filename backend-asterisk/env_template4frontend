@@ -3,6 +3,7 @@ APP_ENV=local
 APP_KEY=base64:55MuVYMScJW40+REfcalV6dOTxKYE8yXNonMK58Rm2I=
 APP_DEBUG=false
 APP_URL=template_arr_url
+ADMIN_EMAIL=template_admin_email
 
 LOG_CHANNEL=stack
 

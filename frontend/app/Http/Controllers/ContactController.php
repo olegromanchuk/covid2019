@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Improcom\GoAPI;
-use App\Http\Improcom\Utils;
+use App\Http\Covid2019\GoAPI;
+use App\Http\Covid2019\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 

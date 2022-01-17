@@ -145,7 +145,6 @@ CREATE TABLE `version` (
 -- Dump completed on 2020-06-01 22:04:13
 -- MariaDB dump 10.17  Distrib 10.4.12-MariaDB, for osx10.15 (x86_64)
 --
--- Host: cdrrapport.improcom.com    Database: covid2019dev
 -- ------------------------------------------------------
 -- Server version	5.5.64-MariaDB
 

@@ -91,7 +91,6 @@ Parameters:
   AdminEmail:
     Type: String
     Description: Email for notifications
-    AllowedPattern: /[^\\s@]+@[^\\s@]+\.[^\\s@]+/
     Default: alexr@improcom.com
   DBName:
     Default: covid2019autodialer

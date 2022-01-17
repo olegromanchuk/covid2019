@@ -191,7 +191,7 @@ $fh = fopen($covidresultfile,'a');
 fputs($fh, "</table></body></html>");
 fclose($fh);
 
-$headers = "From: \"COVID2019 Dialer\"<noreply@improcom.com>\r\n";
+$headers = "From: \"COVID2019 Dialer\"<" . getenv ('ADMIN_EMAIL', "") . ">\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 

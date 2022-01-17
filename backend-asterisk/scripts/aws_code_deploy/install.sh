@@ -149,6 +149,8 @@ sed -i -e "s/template_db_name/${DBNAME}/" env_template4frontend &&
 sed -i -e "s/template_db_user/${NEWDBUSER}/" env_template4frontend &&
   echo "Update template_db_pass env_template4frontend..."
 sed -i -e "s/template_db_pass/${NEWDBPASS}/" env_template4frontend &&
+  echo "Update template_admin_email env_template4frontend..."
+sed -i -e "s/template_admin_email/${ADMIN_EMAIL}/" env_template4frontend &&
   echo "Update template_app_url env_template4frontend..."
 sed -i -e "s,template_app_url,http://${SITE_URL}," env_template4frontend &&
   NICELY_FORMATTED_PHONE_NUMBER=$(echo "${PHONE_NUMBER:0:3}-${PHONE_NUMBER:3:3}-${PHONE_NUMBER:6:4}") &&
@@ -163,6 +165,9 @@ if [[ ${INCRON} == 0 ]]; then
   systemctl restart crond
 fi
 systemctl start apache2
+
+#create authorization tables in database
+php artisan migrate
 
 #install backend for laravel
 cd ${WORK_DIR}/../backend-go

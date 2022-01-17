@@ -1,12 +1,12 @@
 package callrecords
 
 import (
+	"covid2019/config"
+	"covid2019/utils"
 	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
-	"github.com/xyrk/covid2019/config"
-	"github.com/xyrk/covid2019/utils"
 	"time"
 )
 
@@ -49,7 +49,7 @@ VALUES (?,?,?,?,?)`)
 			return err
 		}
 		if me.Number == 1062 {
-			return errors.New(fmt.Sprintf("The number %v already exists in the campaign",campaignRecord.PhoneNumber ))
+			return errors.New(fmt.Sprintf("The number %v already exists in the campaign", campaignRecord.PhoneNumber))
 		}
 		return err
 	}

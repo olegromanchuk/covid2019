@@ -30,7 +30,7 @@
                 <p>Version 1.3</p>
                 Added restriction and validation for repetitive phone numbers. Only unique phone numbers are allowed in contacts and campaign records.
                 <hr/>
-                <p>Contacts: <a href="mailto:pdialer-support@improcom.com">pdialer-support@improcom.com</a></p>
+                <p>Contacts: <a href="mailto:{{env('ADMIN_EMAIL','')}}">{{env('ADMIN_EMAIL','')}}</a></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
