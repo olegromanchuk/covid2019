@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 
 #if base software (php, asterisk) is installed - run just specific installation scripts (dialer scripts, FE-laravel, BE-go)
 if [[ -f /usr/local/utils/systeminstalled_flag ]]; then

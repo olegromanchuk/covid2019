@@ -167,9 +167,12 @@ fi
 systemctl start apache2
 
 #create authorization tables in database
+echo "create authorization tables in database"
+cd ${WWW_DIR}/covid2019-auto-dialer-front
 php artisan migrate
 
 #install backend for laravel
+echo "install go backend for laravel"
 cd ${WORK_DIR}/../backend-go
 go build -o backend-dialer rest.go
 cp -prf backend-dialer ${WORK_DIR}/backend/
