@@ -1,9 +1,9 @@
 package campaigns
 
 import (
+	"covid2019/config"
+	"covid2019/utils"
 	"database/sql"
-	"github.com/xyrk/covid2019/config"
-	"github.com/xyrk/covid2019/utils"
 )
 
 type Campaign struct {

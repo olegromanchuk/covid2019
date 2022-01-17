@@ -1,12 +1,12 @@
 package main
 
 import (
+	"covid2019/ihandlers"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/xyrk/covid2019/ihandlers"
 	"github.com/spf13/viper"
 	"log"
 	"net/http"

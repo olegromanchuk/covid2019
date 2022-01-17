@@ -2,6 +2,7 @@
 - [ ] screenshots
 - [ ] config_campaign_generator_template
 - [ ] covidcampaigngenerator.php
+- [ ] check that useddata .evn variables survive instance reboot. Move .env to ec2 tags  
 - [ ] remove default values from cloudformation template
 - [ ] add SSL for FE  
 - [ ] embed install_4_cloudformation.sh into cloudformation-template.yml

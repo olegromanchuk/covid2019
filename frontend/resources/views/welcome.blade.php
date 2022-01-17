@@ -82,7 +82,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Automated Dialing System (open source) - ADSoS
+                    Automated Dialing System <br>
+                    (open source) - ADSoS
                 </div>
 
                 <div class="links">
