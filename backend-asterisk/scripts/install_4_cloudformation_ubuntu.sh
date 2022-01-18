@@ -61,7 +61,7 @@ a2ensite covid2019
 systemctl restart apache2.service
 
 echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
-systemctl restart crond
+systemctl restart cron
 
 #install asterisk 18
 apt install make wget build-essential git autoconf subversion pkg-config asterisk asterisk-core-sounds-en-wav -y
