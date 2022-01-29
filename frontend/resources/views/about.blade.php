@@ -9,16 +9,16 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
+
                 <p>Version 2.0</p>
-                <hr/>
-                <h5>Redesigned backend architecture: <br>
-                - runs on Ubuntu
+                Redesigned backend architecture: <br>
+                - runs on Ubuntu<br>
                 - unified repo for backend and frontend
-                </h5>
+                <hr/>
 
                 <p>Version 1.6</p>
+                Changelog
                 <hr/>
-                <h5>Changelog</h5>
 
                 <p>Version 1.5</p>
                 Three simultaneous calls are now allowed.

@@ -86,10 +86,14 @@ sed -i -e "s/template_db_name/${DBNAME}/" backend/config_template.yml &&
 sed -i -e "s/template_db_user/${NEWDBUSER}/" backend/config_template.yml &&
   echo "Update template_db_pass backend/config_template.yml..."
 sed -i -e "s/template_db_pass/${NEWDBPASS}/" backend/config_template.yml &&
-  mv backend/config_template.yml backend/config.yml &&
+  mv backend/config_template.yml backend/config.yml && 
+#update asterisk config
   echo "Update template_number asterisk/extensions_covid2019_ivr.conf..."
 sed -i -e "s/template_number/${PHONE_NUMBER}/" asterisk/extensions_covid2019_ivr_template.conf
 mv asterisk/extensions_covid2019_ivr_template.conf asterisk/extensions_covid2019_ivr.conf
+echo "Update template_sip_host asterisk/sip_covid2019.conf..."
+sed -i -e "s/template_sip_host/${SIP_PROVIDER_ADDRESS_IP_OR_DNS}/" asterisk/sip_covid2019_template.conf
+mv asterisk/sip_covid2019_template.conf asterisk/sip_covid2019.conf
 
 echo "Update template_db_host config_campaign_generator_template.php..."
 sed -i -e "s/template_db_host/${DBHOST}/" config_campaign_generator_template.php &&
@@ -159,7 +163,7 @@ sed -i -e "s/template_phone_number_ivr_update/${NICELY_FORMATTED_PHONE_NUMBER}/"
   mv env_template4frontend ${WWW_DIR}/covid2019-auto-dialer-front/.env
 
 echo "Updating crontab if necessary"
-INCRON=$(cat /var/spool/cron/root | grep cron_campaign_checker | wc -l)
+INCRON=$(cat /var/spool/cron/crontabs/root | grep cron_campaign_checker | wc -l)
 if [[ ${INCRON} == 0 ]]; then
   echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
   systemctl restart crond
