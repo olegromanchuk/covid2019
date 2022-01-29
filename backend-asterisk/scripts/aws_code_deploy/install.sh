@@ -89,7 +89,7 @@ sed -i -e "s/template_db_pass/${NEWDBPASS}/" backend/config_template.yml &&
   mv backend/config_template.yml backend/config.yml && 
 #update asterisk config
   echo "Update template_number asterisk/extensions_covid2019_ivr.conf..."
-sed -i -e "s/template_number/${PHONE_NUMBER}/" asterisk/extensions_covid2019_ivr_template.conf
+sed -i -e "s/template_number/${PHONE_NUMBER:1}/" asterisk/extensions_covid2019_ivr_template.conf
 mv asterisk/extensions_covid2019_ivr_template.conf asterisk/extensions_covid2019_ivr.conf
 echo "Update template_sip_host asterisk/sip_covid2019.conf..."
 sed -i -e "s/template_sip_host/${SIP_PROVIDER_ADDRESS_IP_OR_DNS}/" asterisk/sip_covid2019_template.conf
@@ -157,7 +157,7 @@ sed -i -e "s/template_db_pass/${NEWDBPASS}/" env_template4frontend &&
 sed -i -e "s/template_admin_email/${ADMIN_EMAIL}/" env_template4frontend &&
   echo "Update template_app_url env_template4frontend..."
 sed -i -e "s,template_app_url,http://${SITE_URL}," env_template4frontend &&
-  NICELY_FORMATTED_PHONE_NUMBER=$(echo "${PHONE_NUMBER:0:3}-${PHONE_NUMBER:3:3}-${PHONE_NUMBER:6:4}") &&
+  NICELY_FORMATTED_PHONE_NUMBER=$(echo "${PHONE_NUMBER:1:3}-${PHONE_NUMBER:4:3}-${PHONE_NUMBER:7:4}") &&
   echo "Update template_phone_number_ivr_update env_template4frontend..."
 sed -i -e "s/template_phone_number_ivr_update/${NICELY_FORMATTED_PHONE_NUMBER}/" env_template4frontend &&
   mv env_template4frontend ${WWW_DIR}/covid2019-auto-dialer-front/.env
@@ -166,7 +166,7 @@ echo "Updating crontab if necessary"
 INCRON=$(cat /var/spool/cron/crontabs/root | grep cron_campaign_checker | wc -l)
 if [[ ${INCRON} == 0 ]]; then
   echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
-  systemctl restart crond
+  systemctl restart cron
 fi
 systemctl start apache2
 
