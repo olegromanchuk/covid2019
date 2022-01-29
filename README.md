@@ -13,9 +13,10 @@
 - [ ] festival
 - [ ] asterisk in docker on fargate - release 2.0.0
 - [ ] laravel in docker - release 3.0.0
+- [ ] improve cf-template for better support sip media and sip signalling IP addresses. Should allow multiple CIDRs via csv. List<Strings>  1.1.1.0/24,2.2.2.2/24  etc ...
+- [ ] set rules in iptables
 
-# Automated Dialing System MaWaSys
-#### (mass warning system)
+# Automated Dialing System (open source) ADSoS
 
 This software originally was created to inform multiple users over the phone about some event and collect simple data, like confirmation, rejection via DTMF tones.
 It could be used for weather events, informational ads and so on. The systems like this also is known as "school dialing system".
