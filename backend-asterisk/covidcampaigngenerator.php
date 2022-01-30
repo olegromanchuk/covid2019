@@ -23,7 +23,7 @@ function getName($n) {
   sleep 5
   AMNT=`ls /var/spool/asterisk/outgoing | wc -l`
   done
-  echo "select customer_name,main_contact_phone from customcallpastdue where pd_30>0 and pd_60=0" | /usr/bin/mysql -h ***REMOVED*** -u root -p***REMOVED*** ***REMOVED***
+  echo "select customer_name,main_contact_phone from customcallpastdue where pd_30>0 and pd_60=0" | /usr/bin/mysql
 # /var/spool/asterisk
 
  */
