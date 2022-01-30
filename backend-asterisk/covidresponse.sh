@@ -4,7 +4,7 @@ TABLENAME=callrecords
 REPORT=/tmp/covidcollector.txt
 REPORT_4SQL=/tmp/covidreport_sql.txt
 
-WORK_DIR=/usr/local/utils/covid/
+WORK_DIR=/usr/local/utils/covid/backend-asterisk/
 WORK_DIR_FRONTEND=/var/www/html/covid2019-auto-dialer-front/
 
 #check if we need to update database

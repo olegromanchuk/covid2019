@@ -3,6 +3,8 @@
 #exit on error
 
 WORK_DIR=/usr/local/utils/covid/backend-asterisk
+IVR_DIR=/usr/share/asterisk/sounds/covid2019
+LOCAL_PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 #from env: WWW_DIR=/var/www/html
 cd ${WORK_DIR} &&
 
@@ -13,7 +15,6 @@ if [[ -s config_campaign_generator.php ]]; then
   exit 0
 fi
 
-IVR_DIR=/var/lib/asterisk/sounds/covid2019
 
 #all parameters below are from env, which is set by parameters in cloudformation-template via user-data on ec2
 #
@@ -91,9 +92,11 @@ sed -i -e "s/template_db_pass/${NEWDBPASS}/" backend/config_template.yml &&
   echo "Update template_number asterisk/extensions_covid2019_ivr.conf..."
 sed -i -e "s/template_number/${PHONE_NUMBER:1}/" asterisk/extensions_covid2019_ivr_template.conf
 mv asterisk/extensions_covid2019_ivr_template.conf asterisk/extensions_covid2019_ivr.conf
-echo "Update template_sip_host asterisk/sip_covid2019.conf..."
-sed -i -e "s/template_sip_host/${SIP_PROVIDER_ADDRESS_IP_OR_DNS}/" asterisk/sip_covid2019_template.conf
-mv asterisk/sip_covid2019_template.conf asterisk/sip_covid2019.conf
+echo "Update template_sip_host asterisk/pjsip_covid2019.conf..."
+sed -i -e "s/template_sip_host/${SIP_PROVIDER_ADDRESS_IP_OR_DNS}/" asterisk/pjsip_covid2019_template.conf
+sed -i -e "s/template_local_public_ip/${LOCAL_PUBLIC_IP}/" asterisk/pjsip_covid2019_template.conf
+
+mv asterisk/pjsip_covid2019_template.conf asterisk/pjsip_covid2019.conf
 
 echo "Update template_db_host config_campaign_generator_template.php..."
 sed -i -e "s/template_db_host/${DBHOST}/" config_campaign_generator_template.php &&
@@ -104,28 +107,32 @@ sed -i -e "s/template_db_user/${NEWDBUSER}/" config_campaign_generator_template.
   echo "Update template_db_pass config_campaign_generator_template.php..."
 sed -i -e "s/template_db_pass/${NEWDBPASS}/" config_campaign_generator_template.php &&
   mv config_campaign_generator_template.php config_campaign_generator.php &&
-  echo "Moving asterisk files in place..."
+  
+echo "Moving asterisk files in place..."
 #unalias cp
 cp asterisk/extensions_covid2019.conf /etc/asterisk/
 cp asterisk/extensions_covid2019_ivr.conf /etc/asterisk/
-cp asterisk/sip_covid2019.conf /etc/asterisk/
+cp asterisk/pjsip_covid2019.conf /etc/asterisk/
 if [[ ! -d ${IVR_DIR} ]]; then
   mkdir ${IVR_DIR}
 fi
 cp -prf covid_sounds/* ${IVR_DIR}/
+chown asterisk:asterisk ${IVR_DIR}
 
 #check if we need to update asterisk config
-SIPCONF_INCLUDE_US=$(cat /etc/asterisk/sip.conf | grep "sip_covid2019" | wc -l)
+SIPCONF_INCLUDE_US=$(cat /etc/asterisk/pjsip.conf | grep "pjsip_covid2019" | wc -l)
 if [[ ${SIPCONF_INCLUDE_US} == 0 ]]; then
-  echo "#include sip_covid2019.conf" >>/etc/asterisk/sip.conf
+  echo "#include pjsip_covid2019.conf" >>/etc/asterisk/pjsip.conf
 fi
 EXTENSIONS_INCLUDE_US=$(cat /etc/asterisk/extensions.conf | grep "extensions_covid2019" | wc -l)
 if [[ ${EXTENSIONS_INCLUDE_US} == 0 ]]; then
   echo "#include extensions_covid2019.conf" >>/etc/asterisk/extensions.conf
 fi
+#disable chan_sip.conf in modules.conf. We use pjsip
+sed -i '/^\[modules\]/a noload => chan_sip.so' /etc/asterisk/modules.conf
+#rm -rf /usr/lib/asterisk/modules/chan_sip.so #too radical
 
-/sbin/asterisk -rx "sip reload"
-/sbin/asterisk -rx "dialplan reload"
+/sbin/asterisk -rx "core restart now"
 
 echo "Setup service to run backend..."
 cp backend_dialer.service /etc/systemd/system/
@@ -165,7 +172,7 @@ sed -i -e "s/template_phone_number_ivr_update/${NICELY_FORMATTED_PHONE_NUMBER}/"
 echo "Updating crontab if necessary"
 INCRON=$(cat /var/spool/cron/crontabs/root | grep cron_campaign_checker | wc -l)
 if [[ ${INCRON} == 0 ]]; then
-  echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >>/var/spool/cron/root
+  echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh" >>/var/spool/cron/crontabs/root
   systemctl restart cron
 fi
 systemctl start apache2

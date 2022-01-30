@@ -135,10 +135,10 @@ Parameters:
   PhoneNumber:
     Description: Phone number. Used for making outgoing calls and record a message
     Type: String
-    MinLength: '11'
-    MaxLength: '11'
-    # AllowedPattern: '[\\+0-9]*'
-    Default: 16464759800
+    MinLength: '12'
+    MaxLength: '12'
+    AllowedPattern: '[\\+0-9]*'
+    Default: '+16464759800'
     ConstraintDescription: must be in format +1xxxxxxxxxx.
   SIPHost:
     Description: Domain name or IP address of SIP provider
