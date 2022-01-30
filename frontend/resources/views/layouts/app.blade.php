@@ -70,8 +70,17 @@
 {{--                        <a class="nav-link" data-toggle="modal" data-target="#modalStartCampaign" href="#"> Start  campaign </a>--}}
 {{--                    </li>--}}
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal" data-target="#modalAbout" href="#"> About </a>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">Help<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                        <a class="nav-link" data-toggle="modal" data-target="#modalHelp" href="#"> Help </a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" data-toggle="modal" data-target="#modalAbout" href="#"> About </a>
+                                </li>
+                        </ul>
                     </li>
                 </ul>
             @endauth
@@ -132,6 +141,7 @@
 </div>
 
 @include('about')
+@include('help')
 
 
 
