@@ -492,6 +492,7 @@ Resources:
           export COMPOSER_HOME=/root/.config/composer
           export NODE_OPTIONS=--openssl-legacy-provider
 
+          echo "#!/bin/bash" > /tmp/env.sh
           echo "export DBNAME=${DBName}" >> /tmp/env.sh
           echo "export DBUSER=${DBUsername}" >> /tmp/env.sh
           echo "export DBPASS=${DBPassword}" >> /tmp/env.sh
@@ -607,12 +608,25 @@ Resources:
       DBInstanceIdentifier: covid2019databaseinstance
       DBName: covid2019database
       DBInstanceClass: db.t2.micro
+      DBParameterGroupName: !Ref nDBParameterGroup
       AllocatedStorage: 20
       Engine: MariaDB
       EngineVersion: 10.5.13
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
-
+      Tags: 
+        - 'auto-dialer-adsos'
+    
+  nDBParameterGroup:
+    Type: 'AWS::RDS::DBParameterGroup'
+    Properties: 
+      Description: 'Parameter Group w SUPER priv'
+      Family: mariadb
+      Parameters: 
+      log_bin_trust_function_creators: True
+      Tags: 
+        - 'auto-dialer-adsos'
+  
 Outputs:
   InstanceId:
     Description: InstanceId of the newly created EC2 instance
