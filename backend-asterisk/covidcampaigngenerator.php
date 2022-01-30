@@ -52,7 +52,7 @@ set_time_limit(0);
 $campaignFile="/var/www/html/covid2019-auto-dialer-front/public/runcampaign";
 $covidresultfile="/tmp/covidcollector.txt";
 $mysqlfile="/tmp/covidreport_sql.txt";
-$workdir="/usr/local/utils/covid/";
+$workdir="/usr/local/utils/covid/backend-asterisk/";
 
 require_once("func.base.php");
 require_once("plugin.mysql.php");

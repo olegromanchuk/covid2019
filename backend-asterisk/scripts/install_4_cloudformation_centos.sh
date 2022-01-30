@@ -50,7 +50,7 @@ echo "<LocationMatch "^/+\$">
       </Directory>" > /etc/httpd/conf.d/covid2019.conf
 systemctl restart httpd
 
-echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >> /var/spool/cron/root
+echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh" >> /var/spool/cron/root
 systemctl reload crond
 
 mkdir /var/log/festival
