@@ -12,4 +12,4 @@ else
 	cp resources/views/auth/register_disabled.blade.php resources/views/auth/register.blade.php
 fi	
 php artisan cache:clear
-echo "Use http://`hostname`/register"
+echo "Use http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)/register"

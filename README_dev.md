@@ -208,7 +208,7 @@ echo "<LocationMatch "^/+$">
       </Directory>" > /etc/httpd/conf.d/covid2019.conf
 systemctl restart httpd
 
-echo "* * * * * /usr/local/utils/covid/cron_campaign_checker.sh" >> /var/spool/cron/root
+echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh" >> /var/spool/cron/root
 systemctl reload crond
 
 mkdir /var/log/festival
@@ -294,7 +294,7 @@ After the campaign is finished you should receive an email and records in databa
 - [ ] add campaign number automatically when insert new numbers
 - [ ] http://www.digium.com/en/products/software/cepstral.php
 - [ ] Campaign status. Remove hunged campaigns
-- [ ] logrotate for /usr/local/utils/covid/log/
+- [ ] logrotate for /usr/local/utils/covid/backend-asterisk/log/
 - [ ] Should call history to be editable? 
 - [ ] Do you want an easy selection for the "voicemail/answering service" results and the ability to run a campaign on these numbers again?
 - [ ] Do you want to export/edit the history; how long it should be kept? 
