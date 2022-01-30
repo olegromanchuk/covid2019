@@ -90,7 +90,7 @@ sed -i -e "s/template_db_pass/${NEWDBPASS}/" backend/config_template.yml &&
   mv backend/config_template.yml backend/config.yml && 
 #update asterisk config
   echo "Update template_number asterisk/extensions_covid2019_ivr.conf..."
-sed -i -e "s/template_number/${PHONE_NUMBER:1}/" asterisk/extensions_covid2019_ivr_template.conf
+sed -i -e "s/template_number/${PHONE_NUMBER}/" asterisk/extensions_covid2019_ivr_template.conf
 mv asterisk/extensions_covid2019_ivr_template.conf asterisk/extensions_covid2019_ivr.conf
 echo "Update template_sip_host asterisk/pjsip_covid2019.conf..."
 sed -i -e "s/template_sip_host/${SIP_PROVIDER_ADDRESS_IP_OR_DNS}/" asterisk/pjsip_covid2019_template.conf
@@ -164,7 +164,7 @@ sed -i -e "s/template_db_pass/${NEWDBPASS}/" env_template4frontend &&
 sed -i -e "s/template_admin_email/${ADMIN_EMAIL}/" env_template4frontend &&
   echo "Update template_app_url env_template4frontend..."
 sed -i -e "s,template_app_url,http://${SITE_URL}," env_template4frontend &&
-  NICELY_FORMATTED_PHONE_NUMBER=$(echo "${PHONE_NUMBER:1:3}-${PHONE_NUMBER:4:3}-${PHONE_NUMBER:7:4}") &&
+  NICELY_FORMATTED_PHONE_NUMBER=$(echo "${PHONE_NUMBER:2:3}-${PHONE_NUMBER:5:3}-${PHONE_NUMBER:8:4}") &&
   echo "Update template_phone_number_ivr_update env_template4frontend..."
 sed -i -e "s/template_phone_number_ivr_update/${NICELY_FORMATTED_PHONE_NUMBER}/" env_template4frontend &&
   mv env_template4frontend ${WWW_DIR}/covid2019-auto-dialer-front/.env
