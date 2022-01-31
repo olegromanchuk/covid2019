@@ -1,20 +1,66 @@
 #!/usr/bin/php
 <?php
 
+require '/root/.config/composer/vendor/autoload.php';
 require_once 'config_campaign_generator.php';
 // $source_email=getenv(string $SOURCE_EMAIL);
+//
+//
+//
+use Aws\Ses\SesClient;
+use Aws\Exception\AwsException;
+use Aws\Iam\IamClient;
 
-function getName($n) { 
-	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-	$randomString = ''; 
+function getName($n) {
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$randomString = '';
 
-	for ($i = 0; $i < $n; $i++) { 
-		$index = rand(0, strlen($characters) - 1); 
-		$randomString .= $characters[$index]; 
-	} 
+	for ($i = 0; $i < $n; $i++) {
+		$index = rand(0, strlen($characters) - 1);
+		$randomString .= $characters[$index];
+	}
 
-	return $randomString; 
-} 
+	return $randomString;
+}
+
+function sendEmailSES($recipient_emails, $subject, $sender_email, $html_body) {
+
+	var_dump($recipient_emails);
+
+	$SesClient = new Aws\Ses\SesClient([
+		'version' => '2010-12-01',
+		'region' => 'us-west-2'
+	]);
+	$char_set = 'UTF-8';
+
+	try {
+		$result = $SesClient->sendEmail([
+			'Destination' => [
+				'ToAddresses' => $recipient_emails,
+			],
+			'ReplyToAddresses' => [$sender_email],
+			'Source' => $sender_email,
+			'Message' => [
+
+				'Body' => [
+					'Html' => [
+						'Charset' => $char_set,
+						'Data' => $html_body,
+					],
+				],
+				'Subject' => [
+					'Charset' => $char_set,
+					'Data' => $subject,
+				],
+			],
+		]);
+	} catch (AwsException $e) {
+		// output error message if fails
+		echo $e->getMessage();
+		echo "\n";
+	}
+
+}
 
 /*AMNT=`ls /var/spool/asterisk/outgoing | wc -l`
   while [ ${AMNT} -gt 0 ]
@@ -92,7 +138,7 @@ SELECT
 	where
 	`processed` = 0
 	AND
-	`campaign_id` = " . $campaignNumber . " order by 
+	`campaign_id` = " . $campaignNumber . " order by
 	`main_contact_phone`
 	";
 
@@ -116,7 +162,7 @@ SELECT
 $resultOptions = $db->query($queryOptions);
 
 if ($resultOptions === NULL) {
-    criticalError("Can't get options");
+	criticalError("Can't get options");
 }
 
 $requestedAmountOfActiveCallsArray = $resultOptions->fetch_assoc();
@@ -145,8 +191,8 @@ while (($row = $result->fetch_assoc())) {
 		criticalError("Can not create call file: ". TEMP_PATH . $callFileName);
 	}
 
-	fputs($fp, "Channel: SIP/***REMOVED***Out/1$phpMainContactPhone\n");
-	fputs($fp, "CallerID: \"Nursing Home\" <7167483101>\n");
+	fputs($fp, "Channel: PJSIP/defaultTrunk/sip:1$phpMainContactPhone@$sip_trunk\n");
+	fputs($fp, "CallerID: \"$origination_company_name\" <$origination_phone_number>\n");
 	fputs($fp, "Context: from-xxot-covid\n");
 	fputs($fp, "MaxRetries: 2\n");
 	fputs($fp, "RetryTime: 60\n");
@@ -161,20 +207,20 @@ while (($row = $result->fetch_assoc())) {
 	fclose($fp);
 
 	touch(TEMP_PATH . $callFileName, time() + 2);
-	//chown(TEMP_PATH . $callFileName, 'asterisk');
-	//chgrp(TEMP_PATH . $callFileName, 'asterisk');
+	chown(TEMP_PATH . $callFileName, 'asterisk');
+	chgrp(TEMP_PATH . $callFileName, 'asterisk');
 
 	rename(TEMP_PATH . $callFileName, OUTGOING_PATH . $callFileName);
 
 
-    $amountOfCallsActive=exec('ls /var/spool/asterisk/outgoing/ | wc -l');
-    while ($amountOfCallsActive >= $requestedAmountOfActiveCalls ) {
-        //echo $amountOfCallActive . " active calls present. Going to sleep...\n";
-        sleep(10);
-        $amountOfCallsActive=exec('ls /var/spool/asterisk/outgoing/ | wc -l');
-    }
+	$amountOfCallsActive=exec('ls /var/spool/asterisk/outgoing/ | wc -l');
+	while ($amountOfCallsActive >= $requestedAmountOfActiveCalls ) {
+		//echo $amountOfCallActive . " active calls present. Going to sleep...\n";
+		sleep(10);
+		$amountOfCallsActive=exec('ls /var/spool/asterisk/outgoing/ | wc -l');
+	}
 
-    ////old code with one call only
+	////old code with one call only
 //	$isCallActive=exec('ls /var/spool/asterisk/outgoing/ | wc -l');
 //	while ($isCallActive) {
 //		//echo "active calls present. Going to sleep...\n";
@@ -197,7 +243,8 @@ $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 $mailMessage = file_get_contents($covidresultfile);
 
-mail($campaignEmail,"COVID2019 report",$mailMessage, $headers); 
+//mail($campaignEmail,"COVID2019 report",$mailMessage, $headers);
+sendEmailSES([$campaignEmail],"auto-dialer report", $campaignEmail, $mailMessage);
 echo "Finished COVID2019 campaign " . $campaignNumber . " at " . date("r") . " \n";
 
 //backup up sqlresult file

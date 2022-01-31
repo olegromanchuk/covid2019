@@ -65,7 +65,7 @@
             var editorCreateCampaign = new $.fn.dataTable.Editor({
                 ajax: {
                     edit: {
-                        title: "Create Campaign",
+                        title: "Add to campaign",
                         type: 'POST',
                         url: '/js/api/v2/create-campaign',
                         headers: {
@@ -82,7 +82,7 @@
                     },
                 },
                 table: '#contacts-table',
-                title: 'Create Campaign',
+                title: 'Add to campaign',
                 idSrc: 'id',
                 // dataSrc: function (json) {
                 //     return json;
@@ -113,10 +113,10 @@
                 ]
             });
 
-            // Set title "Create Campaign"
+            // Set title "Add to campaign"
             editorCreateCampaign.on('open', function (e, mode, action) {
                 if ( action === 'edit' ) {
-                    editorCreateCampaign.title('Create Campaign');
+                    editorCreateCampaign.title('Add to campaign');
                 }
             });
 
@@ -136,7 +136,7 @@
                 } )
             } );
 
-            editorCreateCampaign.title("Create Campaign");
+            editorCreateCampaign.title("Add to campaign");
 
             //check if entered amount is not crazy high!!!
             // editorCreateCampaign.on('preSubmit', function (e, o, action) {
@@ -182,7 +182,7 @@
                     {extend: 'excel'},
                     {extend: 'csv'},
                     {extend: 'print'},
-                    {extend: "edit", text: 'Create Campaign', enabled: false, editor: editorCreateCampaign, formButtons: {
+                    {extend: "edit", text: 'Add to campaign', enabled: false, editor: editorCreateCampaign, formButtons: {
                             text: 'Create',
                             action: function () { this.submit(); },
                             className: 'btn btn-primary'
