@@ -27,8 +27,8 @@ apt install mysql-client -y
 apt install golang -y
 
 echo "installing composer..."
-curl -sS https://getcomposer.org/installer | php &&
-  mv composer.phar /usr/local/bin/composer
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
 
 echo "installing fresh nodejs"
@@ -42,6 +42,7 @@ ufw allow in "Apache Full"
 sudo a2enmod rewrite
 
 /usr/local/bin/composer global require laravel/installer
+/usr/local/bin/composer global require aws/aws-sdk-php
 
 #updating apache config
 echo "<VirtualHost *:80>
@@ -60,11 +61,12 @@ a2dissite 000-default
 a2ensite covid2019
 systemctl restart apache2.service
 
-echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh" >>/var/spool/cron/crontabs/root
+echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh &>/dev/null" >>/var/spool/cron/crontabs/root
 systemctl restart cron
 
 #install asterisk 18
 apt install make wget build-essential git autoconf subversion pkg-config asterisk asterisk-core-sounds-en-wav -y
+mkdir /var/spool/asterisk/outgoing_done
 
 #apt install festival -y
 #mkdir /var/log/festival

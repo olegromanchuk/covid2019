@@ -140,6 +140,14 @@ Parameters:
     AllowedPattern: '[\\+0-9]*'
     Default: '+16464759800'
     ConstraintDescription: must be in format +1xxxxxxxxxx.
+  CompanyName:
+    Description: Company name. Used in outgoing calls.
+    Type: String
+    MinLength: '1'
+    MaxLength: '255'
+    AllowedPattern: '[a-zA-Z0-9]*'
+    Default: 'Auto Dialer'
+    ConstraintDescription: must contain only alphanumeric characters.
   SIPHost:
     Description: Domain name or IP address of SIP provider
     Type: String
@@ -464,13 +472,16 @@ Resources:
       IamInstanceProfile: !Ref AssignRole
       Tags: 
           - Key: Name
-            Value: Covid2019-autodialer
+            Value: 'auto-dialer-adsos'
           - Key: Project
             Value: covid2019
           - Key: Environment
             Value: development
           - Key: CodeDeploy
             Value: "yes"
+          - Key: project
+            Value: 'auto-dialer-adsos'
+  
       Tenancy: default
       UserData:
         Fn::Base64: !Sub
@@ -482,6 +493,7 @@ Resources:
           export DBHOST=${DBHost}
           export SITE_URL=covid-test.mydomain.com
           export PHONE_NUMBER=${PhoneNumber}
+          export COMPANY_NAME=${CompanyName}
           export SIP_PROVIDER_ADDRESS_IP_OR_DNS=${SIPHost}
           export ADMIN_EMAIL=${AdminEmail}
           export REPO_ADDRESS=${RepoAddress}
@@ -492,13 +504,13 @@ Resources:
           export COMPOSER_HOME=/root/.config/composer
           export NODE_OPTIONS=--openssl-legacy-provider
 
-          echo "#!/bin/bash" > /tmp/env.sh
           echo "export DBNAME=${DBName}" >> /tmp/env.sh
           echo "export DBUSER=${DBUsername}" >> /tmp/env.sh
           echo "export DBPASS=${DBPassword}" >> /tmp/env.sh
           echo "export DBHOST=${DBHost}" >> /tmp/env.sh
           echo "export SITE_URL=covid-test.mydomain.com" >> /tmp/env.sh
           echo "export PHONE_NUMBER=${PhoneNumber}" >> /tmp/env.sh
+          echo "export COMPANY_NAME=${CompanyName}" >> /tmp/env.sh
           echo "export SIP_PROVIDER_ADDRESS_IP_OR_DNS=${SIPHost}" >> /tmp/env.sh
           echo "export ADMIN_EMAIL=${AdminEmail}" >> /tmp/env.sh
           echo "export REPO_ADDRESS=${RepoAddress}" >> /tmp/env.sh
@@ -615,17 +627,19 @@ Resources:
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
       Tags: 
-        - 'auto-dialer-adsos'
+        - Key: project
+          Value: 'auto-dialer-adsos'
     
   nDBParameterGroup:
     Type: 'AWS::RDS::DBParameterGroup'
     Properties: 
       Description: 'Parameter Group w SUPER priv'
-      Family: mariadb
-      Parameters: 
-      log_bin_trust_function_creators: True
+      Family: 'mariadb10.5'
+      Parameters:
+        log_bin_trust_function_creators: '1'
       Tags: 
-        - 'auto-dialer-adsos'
+        - Key: project
+          Value: 'auto-dialer-adsos'
   
 Outputs:
   InstanceId:
