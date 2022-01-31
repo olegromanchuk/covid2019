@@ -10,6 +10,10 @@
             </div>
             <div class="modal-body">
 
+                <p>Version 2.1</p>
+                Added support for AWS Chime
+                <hr/>
+
                 <p>Version 2.0</p>
                 Redesigned backend architecture: <br>
                 - runs on Ubuntu<br>

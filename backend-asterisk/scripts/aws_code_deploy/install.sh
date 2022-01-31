@@ -56,7 +56,7 @@ mkdir log
   echo "creating mysql database and user..."
 echo "CREATE DATABASE ${DBNAME};" | mysql -h ${DBHOST} -u ${DBUSER} -p${DBPASS}
 if [[ $? == 1 ]]; then
-  echo "datab ase ${DBNAME} already exists"
+  echo "database ${DBNAME} already exists"
   exit 1
 fi
 MYIP=$(ip a | grep "scope global dynamic eth0" | awk '{print $2}' | awk -F '/' '{print $1}')
@@ -74,9 +74,9 @@ sed -i -e 's/DEFINER=`root`@`localhost`//g' database.sql
   echo "Update AUTO_INCREMENT database.sql..."
 sed -i -e 's/ AUTO_INCREMENT=[0-9]*//g' database.sql 
   cat database.sql | mysql -h ${DBHOST} -u ${DBUSER} -p${DBPASS} ${DBNAME} 
-  echo "INSERT INTO campaigns (name, description) VALUES ('Main','Main Campaign');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
+  echo "INSERT INTO campaigns (name, description) VALUES ('`date +%Y.%m.%d`-example_campaign','Example Campaign');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
   echo "INSERT INTO version (instance_type, version) VALUES ('database','7');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
-  echo "INSERT INTO options (name, value) values ('amount_of_simultaneous_calls', '2';" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
+  echo "INSERT INTO options (name, value) values ('amount_of_simultaneous_calls', '2');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
   echo 'INSERT INTO users VALUES (1,'"'"'Admin'"','"'admin@email.net'"',NULL,'"'$2y$10$5QUSkWU5QIUcUXdJAMHuG.iuyeMarnUg3u1qXP4Zun5a3T/tf0TgC'"'"',NULL,NOW(),NOW());' | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
   echo "Updating backend config..."
 echo "Update template_db_host backend/config_template.yml..."
@@ -107,6 +107,10 @@ sed -i -e "s/template_db_user/${NEWDBUSER}/" config_campaign_generator_template.
   echo "Update template_db_pass config_campaign_generator_template.php..."
 sed -i -e "s/template_db_pass/${NEWDBPASS}/" config_campaign_generator_template.php 
   mv config_campaign_generator_template.php config_campaign_generator.php 
+sed -i -e "s/origination_phone_number/${PHONE_NUMBER}/" config_campaign_generator_template.php 
+mv config_campaign_generator_template.php config_campaign_generator.php
+sed -i -e "s/origination_company_name/${COMPANY_NAME}/" config_campaign_generator_template.php 
+mv config_campaign_generator_template.php config_campaign_generator.php
   
 echo "Moving asterisk files in place..."
 #unalias cp
@@ -172,7 +176,7 @@ sed -i -e "s/template_phone_number_ivr_update/${NICELY_FORMATTED_PHONE_NUMBER}/"
 echo "Updating crontab if necessary"
 INCRON=$(cat /var/spool/cron/crontabs/root | grep cron_campaign_checker | wc -l)
 if [[ ${INCRON} == 0 ]]; then
-  echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh" >>/var/spool/cron/crontabs/root
+  echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh &>/dev/null" >>/var/spool/cron/crontabs/root
   systemctl restart cron
 fi
 systemctl start apache2
