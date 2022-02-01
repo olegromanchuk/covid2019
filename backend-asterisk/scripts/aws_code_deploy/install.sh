@@ -77,7 +77,6 @@ sed -i -e 's/ AUTO_INCREMENT=[0-9]*//g' database.sql
   echo "INSERT INTO campaigns (name, description) VALUES ('`date +%Y.%m.%d`-example_campaign','Example Campaign');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
   echo "INSERT INTO version (instance_type, version) VALUES ('database','7');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
   echo "INSERT INTO options (name, value) values ('amount_of_simultaneous_calls', '2');" | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
-  echo 'INSERT INTO users VALUES (1,'"'"'Admin'"','"'admin@email.net'"',NULL,'"'$2y$10$5QUSkWU5QIUcUXdJAMHuG.iuyeMarnUg3u1qXP4Zun5a3T/tf0TgC'"'"',NULL,NOW(),NOW());' | mysql -h ${DBHOST} -u ${NEWDBUSER} -p${NEWDBPASS} ${DBNAME} 
   echo "Updating backend config..."
 echo "Update template_db_host backend/config_template.yml..."
 sed -i -e "s/template_db_host/${DBHOST}/" backend/config_template.yml 
@@ -106,11 +105,11 @@ sed -i -e "s/template_db_name/${DBNAME}/" config_campaign_generator_template.php
 sed -i -e "s/template_db_user/${NEWDBUSER}/" config_campaign_generator_template.php 
   echo "Update template_db_pass config_campaign_generator_template.php..."
 sed -i -e "s/template_db_pass/${NEWDBPASS}/" config_campaign_generator_template.php 
-  mv config_campaign_generator_template.php config_campaign_generator.php 
 sed -i -e "s/origination_phone_number/${PHONE_NUMBER}/" config_campaign_generator_template.php 
-mv config_campaign_generator_template.php config_campaign_generator.php
 sed -i -e "s/origination_company_name/${COMPANY_NAME}/" config_campaign_generator_template.php 
+
 mv config_campaign_generator_template.php config_campaign_generator.php
+
   
 echo "Moving asterisk files in place..."
 #unalias cp
