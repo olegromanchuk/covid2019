@@ -105,9 +105,9 @@ sed -i -e "s/template_db_name/${DBNAME}/" config_campaign_generator_template.php
 sed -i -e "s/template_db_user/${NEWDBUSER}/" config_campaign_generator_template.php 
   echo "Update template_db_pass config_campaign_generator_template.php..."
 sed -i -e "s/template_db_pass/${NEWDBPASS}/" config_campaign_generator_template.php 
-sed -i -e "s/origination_phone_number/${PHONE_NUMBER}/" config_campaign_generator_template.php 
-sed -i -e "s/origination_company_name/${COMPANY_NAME}/" config_campaign_generator_template.php 
-
+sed -i -e "s/template_origination_phone_number/${PHONE_NUMBER}/" config_campaign_generator_template.php 
+sed -i -e "s/template_origination_company_name/${COMPANY_NAME}/" config_campaign_generator_template.php 
+sed -i -e "s/template_sip_trunk/${SIP_PROVIDER_ADDRESS_IP_OR_DNS}/" config_campaign_generator_template.php 
 mv config_campaign_generator_template.php config_campaign_generator.php
 
   
