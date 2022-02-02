@@ -1,4 +1,4 @@
-### TODO
+### TODO specific
 - [ ] remove role "removeme"
 - [ ] add role for EC2 to use SES and fix cloudformation
 - [ ] add HELP description for structuture of covid_recorded_human_backup.wav
@@ -19,6 +19,11 @@
 - [ ] laravel in docker - release 3.0.0
 - [ ] improve cf-template for better support sip media and sip signalling IP addresses. Should allow multiple CIDRs via csv. List<Strings>  1.1.1.0/24,2.2.2.2/24  etc ...
 - [ ] set rules in iptables
+
+### TODO general
+- [ ] Integrate with Amazon Polly
+- [ ] Add sms/email notifications
+
 
 # Automated Dialing System (open source) ADSoS
 
@@ -53,3 +58,6 @@ Campaign view:
 
 2 ways:
 * installation via script (not via code deploy)
+
+#### covid_recorded_human.wav
+Hello. This is a test message from the automatic dialing system. Press one to confirm this message or two to listen it again. Thank you.

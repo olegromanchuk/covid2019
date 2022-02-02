@@ -183,7 +183,7 @@
                     {extend: 'csv'},
                     {extend: 'print'},
                     {extend: "edit", text: 'Add to campaign', enabled: false, editor: editorCreateCampaign, formButtons: {
-                            text: 'Create',
+                            text: 'Add to campaign',
                             action: function () { this.submit(); },
                             className: 'btn btn-primary'
                         }},
