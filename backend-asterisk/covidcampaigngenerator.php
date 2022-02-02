@@ -191,7 +191,7 @@ while (($row = $result->fetch_assoc())) {
 		criticalError("Can not create call file: ". TEMP_PATH . $callFileName);
 	}
 
-	fputs($fp, "Channel: PJSIP/defaultTrunk/sip:1$phpMainContactPhone@$sip_trunk\n");
+	fputs($fp, "Channel: PJSIP/dt/sip:+1$phpMainContactPhone@$sip_trunk\n");
 	fputs($fp, "CallerID: \"$origination_company_name\" <$origination_phone_number>\n");
 	fputs($fp, "Context: from-xxot-covid\n");
 	fputs($fp, "MaxRetries: 2\n");
