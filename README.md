@@ -1,4 +1,5 @@
 ### TODO specific
+- [ ] sort desc by id campaigns in frontend
 - [ ] remove role "removeme"
 - [ ] add role for EC2 to use SES and fix cloudformation
 - [ ] add HELP description for structuture of covid_recorded_human_backup.wav
@@ -61,3 +62,7 @@ Campaign view:
 
 #### covid_recorded_human.wav
 Hello. This is a test message from the automatic dialing system. Press one to confirm this message or two to listen it again. Thank you.
+
+#### convertion
+afconvert -d LEI16 -f 'WAVE' covid_recorded_human_backup.mp3 covid_recorded_human_backup.wav
+sox covid_recorded_human_backup.wav -r 8000 -c1 covid_recorded_human_backup_8000.wav

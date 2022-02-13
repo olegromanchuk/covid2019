@@ -1,6 +1,8 @@
 #!/bin/bash
 
 TABLENAME=callrecords
+#the files below are removed by cron_campaign_checker.sh at the end of the campaign. 
+#If you change its name - make sure that you updated it there as well
 REPORT=/tmp/covidcollector.txt
 REPORT_4SQL=/tmp/covidreport_sql.txt
 
