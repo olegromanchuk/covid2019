@@ -147,7 +147,7 @@ echo "Download frontend..."
 cp -prf frontend ${WWW_DIR}/covid2019-auto-dialer-front 
 cd ${WWW_DIR}/ 
 cd covid2019-auto-dialer-front/
-  composer update
+composer update
 npm install
 npm run dev
 
