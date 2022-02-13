@@ -18,7 +18,7 @@ func GetCampaigns() (campaings []Campaign, err error) {
 	utils.CheckErr(err)
 	defer Db.Close()
 
-	stmt, err := Db.Prepare(`Select id, name, description FROM campaigns`)
+	stmt, err := Db.Prepare(`Select id, name, description FROM campaigns ORDER by id desc`)
 	utils.CheckErr(err)
 	//defer stmt.Close()
 	rows, err := stmt.Query()
