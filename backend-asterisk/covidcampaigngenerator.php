@@ -113,11 +113,19 @@ $db = new mysqli($servername, $username, $password, $dbname);
 
 //Emptifying result file
 
-
 $fh = fopen($covidresultfile,'w');
 fputs($fh, "<html><body><table style='border: 1px'>");
 fputs($fh, "<thead><tr><th>Result</th><th>Number</th><th>Name</th><th>ID</th><th>Date</th></tr></thead>");
 fclose($fh);
+
+//Emptifying sql result file
+$fsql = fopen($mysqlfile,'w');
+fclose($fsql);
+//change group and add permissions, so asterisk also can access these files
+chgrp($covidresultfile, 'asterisk');
+chgrp($mysqlfile, 'asterisk');
+chmod($covidresultfile, 0660);
+chmod($mysqlfile, 0660);
 
 
 $fh = fopen($mysqlfile,'w');
@@ -230,11 +238,30 @@ while (($row = $result->fetch_assoc())) {
 }
 
 //End cycle
+
+//wait until all calls are completed and asterisk updates report files
+sleep(10);  //in case of one call only. Asterisk needs time to establish a call
+$amountOfAsteriskCallsActive=exec('/usr/sbin/asterisk -rx "core show calls" | grep "active" | cut -d " " -f1');
+$finalCounter=0;
+$errorMsg="";
+while ($amountOfAsteriskCallsActive > 0) {
+        sleep(10);
+        $amountOfAsteriskCallsActive=exec('/usr/sbin/asterisk -rx "core show calls" | grep "active" | cut -d " " -f1');
+        $finalCounter++;
+        if ($finalCounter > 20) {
+        //something unhealthy. Cycle was ended, but calls are still present
+        	$errorMsg="something unhealthy. Cycle was ended, but calls are still present";
+        	break;
+		}
+}
+
 $command_update_sql="cat /tmp/covidreport_sql.txt | mysql -h " . $servername . " -u " . $username . " -p" . $password . " " . $dbname;
 system($command_update_sql);
 
 $fh = fopen($covidresultfile,'a');
 fputs($fh, "</table></body></html>");
+//if any errors - add them
+fputs($fh, $errorMsg);
 fclose($fh);
 
 $headers = "From: \"COVID2019 Dialer\"<" . getenv ('ADMIN_EMAIL', "") . ">\r\n";

@@ -7,7 +7,8 @@ if [[ -f ${RUNCAMPAIGNFILE} && ! -f /usr/local/utils/covid/backend-asterisk/tmp/
 	CAMPAIGN_NUMBER=`cat ${RUNCAMPAIGNFILE} | awk -F"," '{print$1}'`
 	CAMPAIGN_EMAIL=`cat ${RUNCAMPAIGNFILE} | awk -F"," '{print$2}'`
 	CAMPAIGN_LOG_FOLDER=campaign_${CAMPAIGN_NUMBER}_`date +%Y-%m-%d-%H-%M-%S`
-	echo "$(date ) -- Started campaign ${CAMPAIGN_NUMBER}. Email: ${CAMPAIGN_EMAIL}"	touch /usr/local/utils/covid/backend-asterisk/tmp/campaign_in_progress
+	echo "$(date ) -- Started campaign ${CAMPAIGN_NUMBER}. Email: ${CAMPAIGN_EMAIL}"	
+	touch /usr/local/utils/covid/backend-asterisk/tmp/campaign_in_progress
 	mkdir log/${CAMPAIGN_LOG_FOLDER} &&
 	/usr/local/utils/covid/backend-asterisk/covidcampaigngenerator.php ${CAMPAIGN_NUMBER} ${CAMPAIGN_LOG_FOLDER} > log/${CAMPAIGN_LOG_FOLDER}/campaign_${CAMPAIGN_NUMBER}_`date +%Y-%m-%d-%H-%M-%S`.log &&
 	rm -rf /usr/local/utils/covid/backend-asterisk/tmp/campaign_in_progress
@@ -19,4 +20,6 @@ if [[ -f ${RUNCAMPAIGNFILE} && ! -f /usr/local/utils/covid/backend-asterisk/tmp/
 		rm -rf /var/spool/asterisk/outgoing_done/*
     fi
     echo "$(date ) -- Finished campaign ${CAMPAIGN_NUMBER}. Email: ${CAMPAIGN_EMAIL}"
+	#cleanup some tmp files from covidresponse.sh
+	rm -rf /tmp/covid*
 fi
