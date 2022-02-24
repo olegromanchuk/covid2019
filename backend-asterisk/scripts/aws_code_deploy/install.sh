@@ -120,7 +120,7 @@ if [[ ! -d ${IVR_DIR} ]]; then
   mkdir ${IVR_DIR}
 fi
 cp -prf covid_sounds/* ${IVR_DIR}/
-chown asterisk:asterisk ${IVR_DIR}
+chown asterisk:asterisk ${IVR_DIR} -R
 
 #check if we need to update asterisk config
 SIPCONF_INCLUDE_US=$(cat /etc/asterisk/pjsip.conf | grep "pjsip_covid2019" | wc -l)
