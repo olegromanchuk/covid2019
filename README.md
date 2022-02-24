@@ -1,8 +1,8 @@
 ### TODO specific
-- [ ] sort desc by id campaigns in frontend
-- [ ] remove role "removeme"
+- [x] sort desc by id campaigns in frontend
+- [x] remove role "removeme"
 - [ ] add role for EC2 to use SES and fix cloudformation
-- [ ] add HELP description for structuture of covid_recorded_human_backup.wav
+- [x] add HELP description for structure of covid_recorded_human_backup.wav
 - [ ] test on clean aws account (IAM existing roles check)
 - [ ] screenshots
 - [ ] config_campaign_generator_template
