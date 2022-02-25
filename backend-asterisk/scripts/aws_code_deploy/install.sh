@@ -176,8 +176,11 @@ echo "Updating crontab if necessary"
 INCRON=$(cat /var/spool/cron/crontabs/root | grep cron_campaign_checker | wc -l)
 if [[ ${INCRON} == 0 ]]; then
   echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh &>/dev/null" >>/var/spool/cron/crontabs/root
-  systemctl restart cron
 fi
+
+#why not?
+systemctl restart cron
+
 systemctl start apache2
 
 #create authorization tables in database
