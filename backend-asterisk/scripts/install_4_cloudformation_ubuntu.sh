@@ -62,6 +62,7 @@ a2ensite covid2019
 systemctl restart apache2.service
 
 echo "* * * * * /usr/local/utils/covid/backend-asterisk/cron_campaign_checker.sh &>/dev/null" >>/var/spool/cron/crontabs/root
+chmod 600 /var/spool/cron/crontabs/root
 systemctl restart cron
 
 #install asterisk 18
