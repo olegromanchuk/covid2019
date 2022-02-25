@@ -1,15 +1,15 @@
 ### TODO specific
 - [x] sort desc by id campaigns in frontend
 - [x] remove role "removeme"
-- [ ] add role for EC2 to use SES and fix cloudformation
+- [ ] add role for EC2 to use SES and fix cloudformation -         - CodeDeploy-EC2-Instance-Profile
 - [x] add HELP description for structure of covid_recorded_human_backup.wav
 - [ ] test on clean aws account (IAM existing roles check)
 - [ ] screenshots
-- [ ] config_campaign_generator_template
-- [ ] covidcampaigngenerator.php
+- [x] config_campaign_generator_template
+- [x] covidcampaigngenerator.php
 - [ ] check that useddata .evn variables survive instance reboot. Move .env to ec2 tags  
 - [ ] remove default values from cloudformation template
-- [ ] add SSL for FE  
+- [ ] add SSL for FrontEnd
 - [ ] embed install_4_cloudformation.sh into cloudformation-template.yml
 - [ ] add to cloudformation-template ami from all regions. Currently, the static ami-0892d3c7ee96c0bf7 is set for us-west-2 only
 - [ ] installation via code deploy pipeline. Create codedeploy pipeline template for cloudformation
