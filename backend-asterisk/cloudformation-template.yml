@@ -440,6 +440,29 @@ Mappings:
       HVMG2: ami-0fe84a5b4563d8f27
 
 Resources:
+  IAMRole4EC2:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Sub "ec2.${AWS::Region}.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: SESAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "SES:SendEmail"
+                  - "SES:SendRawEmail"
+                Resource:
+                  - !Sub "arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity:*"
   EC2Instance:
     Type: AWS::EC2::Instance
     DependsOn: MariaDB
@@ -577,7 +600,7 @@ Resources:
     Type: AWS::IAM::InstanceProfile
     Properties: 
       Roles: 
-        - CodeDeploy-EC2-Instance-Profile
+        - !Ref IAMRole4EC2
 
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'

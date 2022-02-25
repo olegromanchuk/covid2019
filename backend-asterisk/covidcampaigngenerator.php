@@ -62,18 +62,6 @@ function sendEmailSES($recipient_emails, $subject, $sender_email, $html_body) {
 
 }
 
-/*AMNT=`ls /var/spool/asterisk/outgoing | wc -l`
-  while [ ${AMNT} -gt 0 ]
-  do
-  echo "Waiting for the end of the call"
-  sleep 5
-  AMNT=`ls /var/spool/asterisk/outgoing | wc -l`
-  done
-  echo "select customer_name,main_contact_phone from customcallpastdue where pd_30>0 and pd_60=0" | /usr/bin/mysql
-# /var/spool/asterisk
-
- */
-
 $campaignNumber=$argv[1];
 $campaignLogFolder=$argv[2];
 
