@@ -449,7 +449,7 @@ Resources:
           - Effect: "Allow"
             Principal:
               Service:
-                - !Sub "ec2.${AWS::Region}.amazonaws.com"
+                - !Sub "ec2.amazonaws.com"
             Action: "sts:AssumeRole"
       Path: "/"
       Policies:
