@@ -22,20 +22,20 @@ Contacts view:
 Calls view:
 ![](docs/screenshots/campaign_progress.png)
   
-</details>  
+</details> 
 
-
----
-## covid2019-auto-dialer-front
+### Site of the project:
+[https://adsos.us](http://adsos.us)
 
 ---
 ## Installation
 
-### **DISCLAIMER!!!** 
-Voice over IP, technology which is part of this stack, is an area which involves many fraudulent schemas. Multiple bots are constantly scanning internet and searching for unprotected SIP servers. It is absolutely necessary to make sure that this instance is throughfully protected and SIP traffic is allowed ONLY from trusted servers, like Amazon Chime or your SIP provider. During the cloudformation stack creation you will be asked for SIP signalling and media IP addresses. By default there Chime IP addresses are set. NEVER set this value to 0.0.0.0 even for testing. The server could easily be hacked withing hours and you may end up with 4-5 figures bill from your SIP provider just in one night.
+### **DISCLAIMER!!!**  
+*Voice over IP (a technology, which is a part of this stack) is an area which involves many fraudulent schemas. Multiple bots are constantly scanning internet and searching for unprotected SIP servers. It is absolutely necessary to make sure that this instance is throughfully protected and SIP traffic is allowed ONLY from trusted servers, like Amazon Chime or your SIP provider. During the cloudformation stack creation you will be asked for SIP signalling and media IP addresses. By default there Chime IP addresses are set. NEVER set this value to 0.0.0.0 even for testing. The server could easily be hacked withing hours and you may end up with 4-5 figures bill from your SIP provider just in one night.*
 
-2 ways:
-* installation via cloudformation script (not via code deploy).
+
+There are 2 options on how to install: via cloudformation or codedeploy.
+### Installation via cloudformation script
 1. Create a stack from cloudformation script (cloudformation-template.yml). It will create all necessary components, except Amazon Chime. You should have a configured Chime account (or any other SIP provider account)
 2. Update Origination/Termination IP address in Chime's settings. IP address can be found in the "Outputs" section " of cloudformation (InstanceIPAddress).You need origination (incoming calls) to be able to record a greeting which will be played by the dialer. The original text see below in the "Misc information". If you do not want to make recording over the phone you may skip origination setup.
 3. After installation is complete you need to login on EC2 instance and enable user registration. Run the next commands to login to the instance:
@@ -50,15 +50,18 @@ sudo /var/www/html/covid2019-auto-dialer-front/enable_registration.sh off
 ```
 7. The system is ready. Read "Help->Help" or instructions below to learn how to use the system.
 
+### Installation via cloudformation script
+Not deployed in public repo yet.
 
 
-## Misc information
+## Misc information  
+---
 
-#### covid_recorded_human.wav
+### covid_recorded_human.wav
 Hello. This is a test message from the automatic dialing system. Press "one" to confirm this message or "two" to listen it again. Thank you.
 
 
-## Help
+### Help
 To start a dialing campaign you need to create it first (Call Records -> Campaigns).
 Then you need to copy contacts to this campaign. Go to Contacts->Contacts, select required contacts (use SHIFT+mouse_click to select multiple contacts) and press the button "Add to campaign". Select desired campaign. To start campaign go to Call Records->Call Records. Select a campaign. The records for this campaign should be displayed. In the upper right corner select "Start campaign". Withing 1 minute the system should start dialing numbers. After the campaign is finished you should receive an email and records in database should update. Note, that email just a notification and contains just basic information about records. Use web interface to get all records from the campaign.
 It is enough to import Contacts only once (Contacts -> Load Contacts). You can just paste CSV data directly into the web form. Another option to add contacts - to use the button "New" on the "Contacts -> Contacts" page. Also, you can edit/delete existing contacts. Select a contact by mouse click and use Edit/Delete buttons. You can also do mass edit for multiple contacts (use SHIFT+mouse_click to select more than one contact)
