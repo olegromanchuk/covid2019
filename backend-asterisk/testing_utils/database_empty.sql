@@ -1,6 +1,5 @@
 -- MySQL dump 10.11
 --
--- Host: ***REMOVED***    Database: ***REMOVED***
 -- ------------------------------------------------------
 -- Server version	5.0.19-standard-log
 
