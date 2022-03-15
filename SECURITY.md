@@ -2,12 +2,11 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Version 2.x is currently supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2.1.    | Most recent release |
+| 2.1    | Most recent release |
 
 ## Reporting a Vulnerability
 
