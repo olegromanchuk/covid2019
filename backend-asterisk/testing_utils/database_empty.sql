@@ -1,6 +1,5 @@
 -- MySQL dump 10.11
 --
--- Host: 142.54.76.18    Database: improcrm
 -- ------------------------------------------------------
 -- Server version	5.0.19-standard-log
 
