@@ -1,4 +1,5 @@
 # Automated Dialing System (open source) - ADSos
+[![Build Status](https://github.com/xyrk/covid2019/workflows/build/badge.svg)]
 
 This software originally was created to inform multiple users over the phone about some event and collect simple data, like confirmation, via DTMF tones.
 It could be used for weather events, informational ads and so on. The systems like this also is known as "school dialing system".
