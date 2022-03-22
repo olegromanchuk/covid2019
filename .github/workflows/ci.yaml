@@ -67,13 +67,11 @@ jobs:
       run: vendor/bin/phpunit tests/
 
     - name: Run Laravel Server
-      run: php artisan serve > /dev/null 2>&1 &
+      run: php artisan serve &
 
     - name: Check laravel
       run: ps ax | grep php
 
-    - name: Check netstatt
-      run: netstat -plan | grep 8000
 
     - name: Check http status code of production site
       uses: lakuapik/gh-actions-http-status@v1
