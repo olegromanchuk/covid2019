@@ -65,16 +65,3 @@ jobs:
 
     - name: Run Testsuite
       run: vendor/bin/phpunit tests/
-
-    - name: Run Laravel Server
-      run: php artisan serve &
-
-    - name: Check laravel
-      run: ps ax | grep php
-
-
-    - name: Check http status code of production site
-      uses: lakuapik/gh-actions-http-status@v1
-      with:
-        sites: '["http://localhost:8000"]'
-        expected: '[301]'
