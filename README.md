@@ -1,4 +1,5 @@
 # Automated Dialing System (open source) - ADSos
+[![CI](https://github.com/xyrk/covid2019/actions/workflows/ci.yaml/badge.svg)](https://github.com/xyrk/covid2019/actions/workflows/ci.yaml)
 <!-- [![Build Status](https://github.com/xyrk/covid2019/workflows/build/badge.svg)] -->
 [![Go Report Card](https://goreportcard.com/badge/github.com/xyrk/covid2019)](https://goreportcard.com/report/github.com/xyrk/covid2019)
 
