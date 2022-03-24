@@ -65,3 +65,15 @@ jobs:
 
     - name: Run Testsuite
       run: vendor/bin/phpunit tests/
+
+    - name: Run artisan serve
+      run: |
+        php artisan serve &
+
+    - name: Make Request
+      id: myRequest
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: "http://localhost:8000"
+    - name: Show Response
+      run: echo ${{ steps.myRequest.outputs.response }}
