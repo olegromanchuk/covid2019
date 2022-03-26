@@ -5,7 +5,7 @@
 
 This software originally was created to inform multiple users over the phone about some event and collect simple data, like confirmation, via DTMF tones.
 It could be used for weather events, informational ads and so on. The systems like this also is known as "school dialing system".
-The list of contacts could be uploaded from csv file and edited withing the system if necessary. It is possible to create different campaigns and track the results withing each campaign.  
+The list of contacts could be uploaded from csv file and edited withing the system if necessary. It is possible to create different campaigns and track the results withing each campaign.   
 The system can detect answering machine and is based on open source software "asterisk".
 
 ## Description and architecture
