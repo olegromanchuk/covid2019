@@ -68,7 +68,8 @@ jobs:
 
     - name: Run artisan serve
       run: |
-        php artisan serve
+        php artisan serve &
+        
 
     - name: Make Request
       id: myRequest
