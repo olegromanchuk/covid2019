@@ -57,7 +57,10 @@ sudo /var/www/html/covid2019-auto-dialer-front/enable_registration.sh off
 Not deployed in public repo yet.
 
 
-## Misc information  
+## Local development (frontend)  
+To run frontend in docker for local development run frontend/scripts/run-dev-env.sh
+
+## Misc information
 ---
 
 ### covid_recorded_human.wav
