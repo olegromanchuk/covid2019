@@ -33,7 +33,7 @@ docker-compose up -d
 echo "sleep 120. Wait until everything is installed"
 sleep 120  #wait untill database is up
 #admin@mail.net - adminpass
-echo 'INSERT INTO users VALUES (1,\'Admin\',\'admin@mail.net\',NULL,\'$2y$10$sqD12SHprOvX4SJo3LA9ieDVFKI5GORHZGeMxS20iBuTkB37TwsYu\',NULL,\'2022-03-27 20:12:48\',\'2022-03-27 20:12:48\');' | mysql -h 127.0.0.1 -u root -prootpassword laravel
+echo 'INSERT INTO users VALUES (1,'"'"'Admin'"'"','"'"'admin@mail.net'"'"',NULL,'"'"'$2y$10$sqD12SHprOvX4SJo3LA9ieDVFKI5GORHZGeMxS20iBuTkB37TwsYu'"'"',NULL,'"'"'2022-03-27 20:12:48'"'"','"'"'2022-03-27 20:12:48'"'"');' | mysql -h 127.0.0.1 -u root -prootpassword laravel
 
 ## Old version with docker only
 # #docker rmi adsos
