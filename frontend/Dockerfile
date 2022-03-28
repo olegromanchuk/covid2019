@@ -1,11 +1,12 @@
 FROM ubuntu:20.04
 
-
+# Set working directory
 WORKDIR /var/www/app
-COPY . /var/www/app
+
+## use this only when use "docker run" without "bind" version (see scripts/run-dev-env.sh)
+#COPY . /var/www/app
 
 # Install system dependencies
-
 RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install curl -y
@@ -22,10 +23,10 @@ RUN /usr/local/bin/composer global require aws/aws-sdk-php
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt-get install -y nodejs
 
-RUN composer install
-RUN npm install
+#RUN composer install
+#RUN npm install
 
-CMD php artisan serve host 0.0.0.0
+# CMD composer install; sleep 10; npm install; sleep 10; php artisan migrate; php artisan serve --host 0.0.0.0 --port 3000
+CMD composer install; sleep 10; npm install; sleep 10; php artisan migrate; php artisan serve --host 0.0.0.0 --port 3000
 
 
-# Set working directory
