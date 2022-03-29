@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>ADSos</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -87,8 +87,9 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://www.worldometers.info/coronavirus/">Statistics</a>
-                    <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html">COVID 2019 on cdc.gov</a>
+                    <a href="https://crisisrelief.un.org/ukraine-crisis" target=_blank>Help <img src="/images/ukraine_banner.gif" alt="Help Ukraine" style="width:40px;height:40px;"></a>
+                    <!-- <a href="https://www.worldometers.info/coronavirus/">Statistics</a>
+                    <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html">COVID 2019 on cdc.gov</a> -->
                 </div>
 {{--            </div>--}}
 {{--        </div>--}}
