@@ -55,7 +55,7 @@ jobs:
 
     - name: Prepare Laravel Application
       run: |
-        cp .env.ci .env
+        cp .env-github-workflows.ci .env
         php artisan key:generate
 
     - name: Install front-end dependencies
