@@ -13,10 +13,10 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: test
+          MYSQL_DATABASE: laravel
         ports:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -60,7 +60,9 @@ jobs:
 
     - name: Install front-end dependencies
       run: |
+        curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
         npm install
+        npm version
         npm run dev
 
     - name: Run Testsuite
@@ -68,14 +70,14 @@ jobs:
 
     - name: Run artisan serve
       run: |
-        php artisan serve &
+        php artisan serve --port 3000 &
         
 
     - name: Make Request
       id: myRequest
       uses: fjogeleit/http-request-action@v1
       with:
-        url: "http://localhost:8000"
+        url: "http://localhost:3000"
         method: GET
     - name: Show Response
       run: echo ${{ steps.myRequest.outputs.response }}

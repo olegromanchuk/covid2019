@@ -1,13 +1,10 @@
 # Automated Dialing System (open source) - ADSos
-<<<<<<< HEAD
 [![Build Status](https://github.com/xyrk/covid2019/workflows/build/badge.svg)]
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-=======
 [![CI](https://github.com/xyrk/covid2019/actions/workflows/ci.yaml/badge.svg)](https://github.com/xyrk/covid2019/actions/workflows/ci.yaml)
 <!-- [![Build Status](https://github.com/xyrk/covid2019/workflows/build/badge.svg)] -->
 [![Go Report Card](https://goreportcard.com/badge/github.com/xyrk/covid2019)](https://goreportcard.com/report/github.com/xyrk/covid2019)
 <a href="https://packagist.org/packages/laravel/browser-kit-testing"><img src="https://img.shields.io/packagist/l/laravel/browser-kit-testing" alt="License"></a>
->>>>>>> d75561681f4b733b9d7b418dfe8d29e5dc827a58
 
 This software originally was created to inform multiple users over the phone about some event and collect simple data, like confirmation, via DTMF tones.
 It could be used for weather events, informational ads and so on. The systems like this also is known as "school dialing system".
