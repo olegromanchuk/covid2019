@@ -20,13 +20,15 @@ RUN chmod +x /usr/local/bin/composer
 RUN /usr/local/bin/composer global require laravel/installer
 RUN /usr/local/bin/composer global require aws/aws-sdk-php
 
-RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
-RUN apt-get install -y nodejs
+# RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+# RUN apt-get install -y nodejs
 
 #RUN composer install
 #RUN npm install
 
 # CMD composer install; sleep 10; npm install; sleep 10; php artisan migrate; php artisan serve --host 0.0.0.0 --port 3000
-CMD composer install; sleep 10; npm install; sleep 10; php artisan migrate; php artisan serve --host 0.0.0.0 --port 3000
+# CMD composer install; sleep 10; npm install; sleep 10; php artisan migrate; php artisan serve --host 0.0.0.0 --port 3000
+CMD composer install; sleep 10; php artisan migrate; php artisan serve --host 0.0.0.0 --port 3000
+
 
 
