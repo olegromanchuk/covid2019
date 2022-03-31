@@ -9,7 +9,7 @@ If this is not what you need, you can uncomment \"docker run\" without \"bind\" 
 read -p "Press enter to continue"
 
 if [[ ! -f .env ]]; then
-    echo "APP_NAME=Laravel
+    echo "APP_NAME=ADSos
 APP_ENV=testing
 APP_KEY=base64:UlesxAgWqDiCARG88KeHqPAsbsjl7Plu1e31lj8rkX0=
 APP_DEBUG=true
