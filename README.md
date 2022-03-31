@@ -1,8 +1,8 @@
 # Automated Dialing System (open source) - ADSos
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-[![CI](https://github.com/xyrk/covid2019/actions/workflows/ci.yaml/badge.svg)](https://github.com/xyrk/covid2019/actions/workflows/ci.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/xyrk/covid2019)](https://goreportcard.com/report/github.com/xyrk/covid2019)
-<!-- [![Build Status](https://github.com/xyrk/covid2019/workflows/build/badge.svg)] -->
+[![CI](https://github.com/olegromanchuk/covid2019/actions/workflows/ci.yaml/badge.svg)](https://github.com/olegromanchuk/covid2019/actions/workflows/ci.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/olegromanchuk/covid2019)](https://goreportcard.com/report/github.com/olegromanchuk/covid2019)
+<!-- [![Build Status](https://github.com/olegromanchuk/covid2019/workflows/build/badge.svg)] -->
 
 
 This software originally was created to inform multiple users over the phone about some event and collect simple data, like confirmation, via DTMF tones.

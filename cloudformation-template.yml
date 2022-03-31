@@ -65,7 +65,7 @@ Parameters:
   RepoAddress:
     Description: Address of repository from where the source code should be downloaded
     Type: String
-    Default: git@github.com:xyrk/covid2019.git
+    Default: git@github.com:olegromanchuk/covid2019.git
   AdminEmail:
     Type: String
     Description: Email for notifications

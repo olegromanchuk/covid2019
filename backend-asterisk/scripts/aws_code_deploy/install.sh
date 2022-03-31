@@ -148,8 +148,8 @@ cp -prf frontend ${WWW_DIR}/covid2019-auto-dialer-front
 cd ${WWW_DIR}/ 
 cd covid2019-auto-dialer-front/
 composer update
-npm install
-npm run dev
+# npm install
+# npm run dev
 
 echo "Updating owner for frontend (takes time)..."
 chown www-data:www-data /var/www/html/ -R 
