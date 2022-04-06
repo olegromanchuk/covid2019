@@ -1,5 +1,5 @@
 on: push
-name: CI
+name: "Frontend test"
 
 defaults:
  run:
