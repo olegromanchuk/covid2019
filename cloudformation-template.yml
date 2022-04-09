@@ -61,11 +61,10 @@ Parameters:
     Default: 99.77.253.0/24
     # AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-
   RepoAddress:
-    Description: Address of repository from where the source code should be downloaded
+    Description: Address of repository from where the source code should be downloaded. Leave it to default
     Type: String
-    Default: git@github.com:olegromanchuk/covid2019.git
+    Default: https://github.com/olegromanchuk/covid2019.git
   AdminEmail:
     Type: String
     Description: Email for notifications
@@ -97,13 +96,12 @@ Parameters:
     Default: databasepass3RfRe3fvd3h
     ConstraintDescription: must contain only alphanumeric characters.
   PhoneNumber:
-    Description: Phone number. Used for making outgoing calls and record a message. This is your phone number in Chime.
+    Description: 'Phone number. Used for making outgoing calls and record a message. This is your phone number in Chime. Must be in format +1xxxxxxxxxx. For example: +12124567890'
     Type: String
     MinLength: '12'
     MaxLength: '12'
     AllowedPattern: '[\\+0-9]*'
-    Default: '+12124567890'
-    ConstraintDescription: must be in format +1xxxxxxxxxx.
+    ConstraintDescription: 'Phone number must be in format +1xxxxxxxxxx. For example: +12124567890'
   CompanyName:
     Description: Company name. Used in outgoing calls.
     Type: String
@@ -113,9 +111,10 @@ Parameters:
     Default: 'AutoDialer'
     ConstraintDescription: must contain only alphanumeric characters.
   SIPHost:
-    Description: Domain name or IP address of SIP provider. In Chime you can find it under "Calling->Voice connectors"
+    Description: 'Domain name or IP address of SIP provider. In Chime you can find it under "Calling->Voice connectors. Outbound host name. For example: chimecustomurl.voiceconnector.chime.aws"'
     Type: String
-    Default: chimeoutboundhostname.voiceconnector.chime.aws
+    AllowedPattern: '[-a-zA-Z0-9\\.]*'
+    ConstraintDescription:  "For example chimecustomurl.voiceconnector.chime.aws"
 
 Mappings:
   AWSInstanceType2Arch:
