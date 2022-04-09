@@ -3,20 +3,20 @@
 [![CI](https://github.com/olegromanchuk/covid2019/actions/workflows/ci.yaml/badge.svg)](https://github.com/olegromanchuk/covid2019/actions/workflows/ci.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/olegromanchuk/covid2019)](https://goreportcard.com/report/github.com/olegromanchuk/covid2019)
 <!-- [![Build Status](https://github.com/olegromanchuk/covid2019/workflows/build/badge.svg)] -->
-
+test
 
 This software originally was created to inform multiple users over the phone about some event and collect simple data, like confirmation, via DTMF tones.
-It could be used for weather events, informational ads and so on. The systems like this also is known as "school dialing system".
-The list of contacts could be uploaded from csv file and edited withing the system if necessary. It is possible to create different campaigns and track the results withing each campaign.   
+It could be used for weather events, informational ads and so on. The systems like this is also known as "school dialing system".
+The list of contacts could be uploaded from csv file and edited withing the system, if necessary. It is possible to create different campaigns and track the results withing each campaign.   
 The system can detect answering machine and is based on open source software "asterisk".
 
 ## Description and architecture
-The system was designed to run on aws EC2 instance and consists of next components:
-- EC2 instance (Ubuntu 20.04.4 LTS) - runs core voip engine (asterisk 18), frontend (Laravel), backend (goland)
+The system was designed to run on aws EC2 instance and RDS and consists of next components:
+- EC2 instance (Ubuntu 20.04.4 LTS) - runs core voip engine (asterisk 18), frontend, backend
 - asterisk PBX (runs on EC2)
 - frontend GUI (runs on EC2 - Laravel) 
 - backend for GUI (runs on EC2 - Golang)
-- MariaDB - used for frontend authentication and stores information about contacts, campaigns and calls.
+- MariaDB - used for frontend authentication and stores information about contacts, campaigns and calls (runs on RDS)
 
 
 <details><summary>Screenshots</summary>
@@ -41,9 +41,17 @@ Calls view:
 
 There are 2 options on how to install: via cloudformation or codedeploy.
 ### Installation via cloudformation script
-1. Create a stack from cloudformation script (cloudformation-template.yml). It will create all necessary components, except Amazon Chime. You should have a configured Chime account (or any other SIP provider account)
-2. Update Origination/Termination IP address in Chime's settings. IP address can be found in the "Outputs" section " of cloudformation (InstanceIPAddress).You need origination (incoming calls) to be able to record a greeting which will be played by the dialer. The original text see below in the "Misc information". If you do not want to make recording over the phone you may skip origination setup.
-3. After installation is complete you need to login on EC2 instance and enable user registration. Run the next commands to login to the instance:
+1. Create a stack from cloudformation script (cloudformation-template.yml). 
+Must be set to custom values:
+- KeyName (aws ssh key)
+- PhoneNumber - chime phone number (chime->calling->phone number management)
+- SIPHost - Chime custom url (Calling->Voice connectors. Outbound host name)
+- VPCId
+It will create all necessary components, except Amazon Chime. You should have a configured Chime account (or any other SIP provider account)
+2. Update Origination/Termination IP address in Chime's settings. IP address can be found in the "Outputs" section " of cloudformation (InstanceIPAddress).You need origination (incoming calls) to be able to record a greeting which will be played by the dialer. The original text see below in the "Misc information". If you do not want to make recording over the phone you may skip the origination setup.
+Allow plenty of time for installation even after CF reports that the stack is completed (20 minutes)!!!
+
+3. After installation is complete you need to login on EC2 instance and enable user registration. Check cloudformation outputs to get an IP address of the instance. Run the next commands to login to the instance:
 ```
 ssh -p 22 ubuntu@EC2ADDRESS -i ~/.ssh/AWS-key.pem
 sudo /var/www/html/covid2019-auto-dialer-front/enable_registration.sh on 
@@ -99,6 +107,13 @@ sox covid_recorded_human_backup.wav -r 8000 -c1 covid_recorded_human_backup_8000
 - [x] register domain and site for documentation
 - [ ] create description for Chime
 - [ ] github badges
+- [ ] in workflow ci.yml check if output contain proper words like "Automated Dialing System"
+- [ ] in cf check that ec2 all packages withing EC2 instance are installed successfully
+- [ ] build go binaries in github workflows
+- [ ] describe troubleshooting section. Check /var/log/cloud-init-output.log. 
+Check if next folders exist:
+- /usr/local/utils/covid 
+- /var/www/html/covid2019-auto-dialer-front
 
 
 - [ ] asterisk in docker on fargate - release 2.0.0
