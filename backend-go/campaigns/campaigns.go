@@ -20,6 +20,9 @@ func GetCampaigns() (campaings []Campaign, err error) {
 
 	stmt, err := Db.Prepare(`Select id, name, description FROM campaigns ORDER by id desc`)
 	utils.CheckErr(err)
+	if err != nil { //can't connect to database
+		return campaings, err
+	}
 	//defer stmt.Close()
 	rows, err := stmt.Query()
 	if err != nil {
