@@ -1,0 +1,54 @@
+on: push
+name: "Backend-go test"
+
+defaults:
+ run:
+  working-directory: ./backend-go
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.13.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create config for test
+        run: |
+          echo 'port: ":3000"' >> config.yml
+          echo 'username: "notinuse"' >> config.yml
+          echo 'password: "notinuse"' >> config.yml
+          echo '' >> config.yml
+          echo 'db:' >> config.yml
+          echo '  db_user: "template_db_user"' >> config.yml
+          echo '  db_password: "template_db_pass"' >> config.yml
+          echo '  db_host: "template_db_host"' >> config.yml
+          echo '  db_port: 3306' >> config.yml
+          echo '  db_name: "template_db_name"' >> config.yml
+          echo '  db_tz: "Local"' >> config.yml
+      - name: Test
+        run: |
+          go build -o backend-dialer rest.go
+          ./backend-dialer &
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
+        
+      - name: Make Request
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "http://localhost:3000/api/v2/campaigns"
+          method: GET
+      - name: Check on failures
+        if: ${{ ! contains(steps.myRequest.outputs.response,'dial tcp') }}
+        run: exit 1
+      - name: Show Response
+        run: echo ${{ steps.myRequest.outputs.response }}
