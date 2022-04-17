@@ -110,6 +110,7 @@ sox covid_recorded_human_backup.wav -r 8000 -c1 covid_recorded_human_backup_8000
 - [ ] in cf check that ec2 all packages withing EC2 instance are installed successfully
 - [ ] build go binaries in github workflows
 - [ ] describe troubleshooting section. Check /var/log/cloud-init-output.log. 
+- [ ] add mock database and testing for gobackend. Add tests to github workflows
 Check if next folders exist:
 - /usr/local/utils/covid 
 - /var/www/html/covid2019-auto-dialer-front
