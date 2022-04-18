@@ -6,12 +6,12 @@ import (
 	"covid2019/contacts"
 	"covid2019/utils"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 type DatatablesOutWError struct {
@@ -170,7 +170,7 @@ func UploadContacts(w http.ResponseWriter, req *http.Request) {
 			}
 			allContacts = append(allContacts, contact)
 		} else { //error
-			allErrors = append(allErrors, errors.New(fmt.Sprintf("Check if this record is correct:---\"%v\" --- Must have exactly 3 commas. Detected only %v ", val, len(sliceRecord)-1)))
+			allErrors = append(allErrors, fmt.Errorf("Check if this record is correct:---\"%v\" --- Must have exactly 3 commas. Detected only %v ", val, len(sliceRecord)-1))
 			logrus.Error(val)
 		}
 	}
@@ -399,7 +399,7 @@ func DeleteContacts(w http.ResponseWriter, req *http.Request) {
 	var contactsAll []contacts.Contact
 	for _, val := range allDeletedContacts.Data {
 		//convert id from string to int
-		intID, err := strconv.Atoi(val.Id)
+		intID, err := strconv.ParseInt(val.Id, 10, 32)
 		if err != nil {
 			sliceErrors = append(sliceErrors, err)
 			continue
