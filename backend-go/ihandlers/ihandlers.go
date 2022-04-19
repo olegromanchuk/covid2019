@@ -171,7 +171,9 @@ func UploadContacts(w http.ResponseWriter, req *http.Request) {
 			allContacts = append(allContacts, contact)
 		} else { //error
 			allErrors = append(allErrors, fmt.Errorf("Check if this record is correct:---\"%v\" --- Must have exactly 3 commas. Detected only %v ", val, len(sliceRecord)-1))
-			logrus.Error(val)
+			escapedVal := strings.Replace(val, "\n", "", -1)
+			escapedVal = strings.Replace(escapedVal, "\r", "", -1)
+			logrus.Error(escapedVal)
 		}
 	}
 
