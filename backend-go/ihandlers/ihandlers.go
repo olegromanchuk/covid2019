@@ -97,7 +97,7 @@ func DeleteCampaigns(w http.ResponseWriter, req *http.Request) {
 	var campaignsAll []campaigns.Campaign
 	for _, val := range SliceCampaigns.Data {
 		//convert id from string to int
-		intID, err := strconv.Atoi(val.Id)
+		intID, err := strconv.ParseInt(val.Id, 10, 32)
 		if err != nil {
 			sliceErrors = append(sliceErrors, err)
 			continue
@@ -220,7 +220,7 @@ func UpdateContacts(w http.ResponseWriter, req *http.Request) {
 	var contactsAll []contacts.Contact
 	for _, val := range allUpdatedContacts.Data {
 		//convert id from string to int
-		intID, err := strconv.Atoi(val.Id)
+		intID, err := strconv.ParseInt(val.Id, 10, 32)
 		if err != nil {
 			sliceErrors = append(sliceErrors, err)
 			continue
