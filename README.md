@@ -28,8 +28,8 @@ Calls view:
   
 </details> 
 
-### Site of the project:
-[https://adsos.us](http://adsos.us)
+<!-- ### Site of the project:
+[https://adsos.us](http://adsos.us) -->
 
 ---
 ## Installation
